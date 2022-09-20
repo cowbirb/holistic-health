@@ -29,12 +29,12 @@ function Navmenu() {
   return (
     <div>
       <IconButton
-        id='menu-button'
-        size='large'
-        edge='start'
-        color='inherit'
+        id="menu-button"
+        size="large"
+        edge="start"
+        color="inherit"
         aria-controls={open ? 'Eatsmart-menu' : undefined}
-        aria-haspopup='true'
+        aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleMenuClick}
         sx={{ mr: 2 }}
@@ -42,7 +42,7 @@ function Navmenu() {
         <MenuIcon />
       </IconButton>
       <Menu
-        id='Eatsmart-menu'
+        id="Eatsmart-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleMenuClose}
@@ -51,14 +51,20 @@ function Navmenu() {
         }}
       >
         <MenuItem onClick={handleMenuClose}>
-          <NavLink to='/' style={menuItemStyle} end>
+          <NavLink to="/" style={menuItemStyle} end>
             Home
           </NavLink>
         </MenuItem>
 
         <MenuItem onClick={handleMenuClose}>
-          <NavLink to='/profile' style={menuItemStyle}>
+          <NavLink to="/profile" style={menuItemStyle}>
             Profile
+          </NavLink>
+        </MenuItem>
+
+        <MenuItem onClick={handleMenuClose}>
+          <NavLink to="/meditate" style={menuItemStyle}>
+            Meditate
           </NavLink>
         </MenuItem>
 
