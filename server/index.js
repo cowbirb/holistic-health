@@ -1,13 +1,12 @@
 const path = require('path');
 const express = require('express');
-const http = require('http');
 const { Users, saveRecipe, SavedRecipe } = require('./db/index.js');
 const { default: axios } = require('axios');
 
 const RECIPES_API_KEY = process.env.RECIPES_API_KEY;
 const RECIPES_API_ID = process.env.RECIPES_API_ID;
 
-const port = 8000;
+const port = 3000;
 
 const distPath = path.resolve(__dirname, '..', 'dist');
 
@@ -156,8 +155,6 @@ app.get('/*', (req, res) => {
   );
 });
 
-const server = http.createServer(app);
-
 app.listen(port, () => {
-  console.log(`listening @ http://127.0.0.1:${port}`);
+  console.log(`listening @ http://localhost:${port}`);
 });
