@@ -7,6 +7,7 @@ import Auth0ProviderWithNavigate from './auth/auth0-provider-with-navigate.jsx';
 
 import App from './components/App.jsx';
 import Profile from './components/Profile.jsx';
+import Meditate from './components/Meditate.jsx';
 import { AppContextProvider } from './context/AppContext.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,10 +16,11 @@ root.render(
     <BrowserRouter>
       <Auth0ProviderWithNavigate>
         <Routes>
-          <Route path='/' element={<App />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path="/" element={<App />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="meditate" element={<Meditate />} />
         </Routes>
       </Auth0ProviderWithNavigate>
     </BrowserRouter>
-  </AppContextProvider>
+  </AppContextProvider>,
 );
