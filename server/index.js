@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const http = require('http');
 const { Users, saveRecipe, SavedRecipe } = require('./db/index.js');
 const { default: axios } = require('axios');
 
@@ -155,8 +154,6 @@ app.get('/*', (req, res) => {
     }
   );
 });
-
-const server = http.createServer(app);
 
 app.listen(port, () => {
   console.log(`listening @ http://localhost:${port}`);
