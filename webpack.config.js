@@ -3,13 +3,14 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
+  devtool: 'eval-source-map',
   entry: path.resolve(__dirname, 'client', 'index.jsx'),
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
-    new Dotenv()
+    new Dotenv(),
   ],
   watch: true,
   module: {
