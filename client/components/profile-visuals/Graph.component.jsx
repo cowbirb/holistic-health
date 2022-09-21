@@ -9,7 +9,7 @@ const Graph = () => {
         <div>
             <Chart
             width={'100%'}
-            height={'100%'}
+            height={'200%'}
             type='bar'
             options={ 
                 {
@@ -25,13 +25,13 @@ const Graph = () => {
             }
             data={ 
                 {
-                    labels: [1, 2, 3, 4], 
+                    labels: ['Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'], 
                     datasets: [
                         {
                             type: 'bar',
-                            label: 'Dataset 2',
+                            label: 'Number of Entries with Mood',
                             backgroundColor: 'rgb(75, 192, 192)',
-                            data: [1, 2, 3, 4].map(() => Math.floor(Math.random() * 10)),
+                            data: ['Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'].map(() => Math.floor(Math.random() * 10)),
                             borderColor: 'white',
                             borderWidth: 2,
                             parsing: {
