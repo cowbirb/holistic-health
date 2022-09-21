@@ -7,6 +7,7 @@
     "start": "nodemon server",
     "build": "webpack",
     "dev": "npm run build & npm run start",
+    "dev2": "concurrently -n webpack,server --kill-others \"npm run build\" \"npm start\" ",
     "lint": "./node_modules/.bin/eslint"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "@mui/material": "^5.9.0",
     "axios": "^0.27.2",
     "babel-loader": "^8.2.5",
+    "concurrently": "^7.4.0",
     "dotenv": "^16.0.1",
     "dotenv-webpack": "^8.0.0",
     "eslint": "^8.19.0",
