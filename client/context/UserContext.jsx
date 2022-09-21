@@ -14,10 +14,8 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.post('/profile', { user })
-        .then(({ data }) => {
-          console.log('--->', data);
-          setCurrentUser(data)})
+      axios.post('/user', { user })
+        .then(({config: {data}}) => setCurrentUser(data))
         .catch(err => console.log('profile post unsuccessful', err));
     }
   }, [isAuthenticated, user]);
