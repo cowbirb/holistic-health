@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Slider } from '@mui/material';
-// import sound from '../media/audio/chime.wav';
+import Typography from '@mui/material/Typography';
+import chime from '../media/audio/meditation-chime.mp3';
+import Navbar from './Navbar.jsx';
 
 const Meditate = () => {
   
@@ -18,13 +20,6 @@ const Meditate = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   // const renders = useRef(0);
   const timerId = useRef();
-  
-  // console.log(renders.current);
-  // console.log('timerId.current:\n', timerId.current);
-  // console.log('timerVal:\n', timerVal);
-  // useEffect(() => {
-  //   count.current = count.current + 1;
-  // });
   
   const handleSliderChange = (e) => {
     setTimerVal(e.target.value * 60);
@@ -66,6 +61,8 @@ const Meditate = () => {
           // reset the timer
           resetTimer();
           // play the chime
+          const alert = new Audio(chime);
+          alert.play();
           // set a timout for 15 seconds until you switch the value of  timesup back
           setTimeout(() => {
             setIsTimeUp(false);
@@ -79,24 +76,6 @@ const Meditate = () => {
   const seconds = timerVal % 60;
   const secondsView = seconds > 9 ? seconds : `0${seconds}`;
 
-
-  const timesUp = () => {
-    // const chime = new Audio('../media/audio/meditation-chime.mp3');
-    setIsTimeUp(true);
-    resetTimer();
-    //chime.play();
-    setTimeout(() => {
-      setIsTimeUp(false);
-    }, 18000);
-  };
-
-  // useEffect(() => {
-  //   console.log('we are inside of the useEffect');
-  //   resetTimer();
-  //   setIsTimeUp(true);
-  // });
-
-  //
   const RenderView = () => {
     // if the time isn't up
     if (!isTimeUp) {
@@ -130,6 +109,12 @@ const Meditate = () => {
   
   return (
     <>
+
+      <Typography variant='h3' color='primary'>
+          HolisticYou
+      </Typography>
+
+      <Navbar />
       <h1>Meditate</h1>
       <br></br>
       <br></br>
