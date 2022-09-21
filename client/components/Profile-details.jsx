@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import CalorieCalc from './CalorieCalc.jsx';
+import Exercise from './Exercise.jsx';
 
 //Textfield select
 const sexes = [
@@ -18,10 +19,7 @@ const sexes = [
   },
 ];
 
-function ProfileDetails(props) {
-  // Destructure User from props for handleUpdateOnClick
-  const { user, calorieCount, setCalorieCount } = props;
-
+function ProfileDetails({ user, calorieCount, setCalorieCount }) {
   //Material-ui: Textfield props
   const inputProps = {
     type: 'number',
@@ -62,48 +60,48 @@ function ProfileDetails(props) {
   const handleUpdateOnClick = (user) => {
     // send axios put request passing in user email as HTTP path parameter
     // passing in object containing state for the update
-    axios
-      .put(`/profile/${user.email}`, {
-        age: userAge,
-        height: userHeight,
-        weight: userWeight,
-        sex: userSex,
-      })
-      .then(({ status }) => {
-        console.log(status);
-      })
-      .catch((err) => {
-        console.error('could not send update to server =>', err);
-      });
+    // axios
+    //   .put(`/profile/${user.email}`, {
+    //     age: userAge,
+    //     height: userHeight,
+    //     weight: userWeight,
+    //     sex: userSex,
+    //   })
+    //   .then(({ status }) => {
+    //     console.log(status);
+    //   })
+    //   .catch((err) => {
+    //     console.error('could not send update to server =>', err);
+    //   });
   };
 
   // send axios get request to get user information not provided by Auth0
   const getProfileDetails = () => {
-    axios
-      .get(`/profile/${user.email}`)
-      .then(({ data, status }) => {
-        console.log(status);
-        return data;
-      })
-      .then((data) => {
-        // setState to reflect user information
+  //   axios
+  //     .get(`/profile/${user.email}`)
+  //     .then(({ data, status }) => {
+  //       console.log('---->', data);
+  //       return data;
+  //     })
+  //     .then((data) => {
+  //       // setState to reflect user information
 
-        if (data.age) {
-          setAge(data.age);
-        }
-        if (data.weight) {
-          setWeight(data.weight);
-        }
-        if (data.height) {
-          setHeight(data.height);
-        }
-        if (data.sex) {
-          setSex(data.sex);
-        }
-      })
-      .catch((err) => {
-        console.log('could not get information', err);
-      });
+  //       if (data.age) {
+  //         setAge(data.age);
+  //       }
+  //       if (data.weight) {
+  //         setWeight(data.weight);
+  //       }
+  //       if (data.height) {
+  //         setHeight(data.height);
+  //       }
+  //       if (data.sex) {
+  //         setSex(data.sex);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log('could not get information', err);
+  //     });
   };
 
   //run immediately after rendering
@@ -187,6 +185,9 @@ function ProfileDetails(props) {
           calorieCount={calorieCount}
           setCalorieCount={setCalorieCount}
         />
+      </Box>
+      <Box>
+       <Exercise user={user} />
       </Box>
     </div>
   );
