@@ -15,18 +15,25 @@ mongoose
   });
 
 const UserProfile = new Schema({
-  connection: String,
+  date: Date,
+  name: String,
   email: {
     type: String,
     unique: true,
   },
+  picture: String,
   weight: Number,
   height: Number,
   age: Number,
   sex: String,
   recipeList: String,
   calorieCount: Number,
-});
+  exercises: [{
+    workout: String,
+    set: String,
+    rep: String,
+  }],
+}, {timestamps: true});
 
 const SavedRecipeSchema = new Schema({
   label: String,
