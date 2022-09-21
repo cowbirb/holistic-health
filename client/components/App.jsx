@@ -9,6 +9,7 @@ import Navbar from './Navbar.jsx';
 import Search from './Search.jsx';
 
 const App = () => {
+
   return (
     <div>
       <Typography variant='h3' color='primary'>
