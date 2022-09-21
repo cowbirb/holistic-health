@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Graph from './Graph.component.jsx';
+import PieChart from './PieChart.component.jsx';
 import Summary from './Summary.component.jsx';
 
 const ProfileVisual = () => {
 
     return (
         <div>
-            <Graph></Graph>
+            <PieChart></PieChart>
             <Summary></Summary>
         </div>
     );
