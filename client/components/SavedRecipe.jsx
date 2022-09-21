@@ -41,13 +41,8 @@ const SavedRecipe = ({
   const deleteRecipe = () => {
     axios
       .delete(`/myrecipes/${savedRecipe._id}`)
-      .then(() => {
-        console.log('recipe deleted');
-        getSavedRecipes(user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then(() => getSavedRecipes(user))
+      .catch(err => console.log('delete recipe unsuccessful', err));
   };
 
   const handleExpandClick = () => {
@@ -78,13 +73,11 @@ const SavedRecipe = ({
         <Typography gutterBottom variant='h6' component='div'>
           {Math.round(savedRecipe.calories)} Calories
         </Typography>
-        <Typography>
-          <List>
-            <ListItem>Fat: {savedRecipe.fat} g</ListItem>
-            <ListItem>Carbs: {savedRecipe.carbs} g</ListItem>
-            <ListItem>Protein: {savedRecipe.protein} g</ListItem>
-          </List>
-        </Typography>
+        <List>
+          <ListItem>Fat: {savedRecipe.fat} g</ListItem>
+          <ListItem>Carbs: {savedRecipe.carbs} g</ListItem>
+          <ListItem>Protein: {savedRecipe.protein} g</ListItem>
+        </List>
       </CardContent>
       <CardActions>
         <Button
