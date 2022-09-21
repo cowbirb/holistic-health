@@ -8,6 +8,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: '[name][ext]',
   },
   plugins: [
     new Dotenv()
@@ -17,7 +18,7 @@ module.exports = {
     rules: [
       {
         test: /\.(jsx|js)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/,],
         use: {
           loader: 'babel-loader',
           options: {
@@ -25,6 +26,10 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      }
     ],
   },
 };
