@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
-import { AppContext } from '../context/AppContext.jsx';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
