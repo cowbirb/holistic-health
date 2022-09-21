@@ -15,7 +15,6 @@ mongoose
   });
 
 const UserProfile = new Schema({
-  date: Date,
   name: String,
   email: {
     type: String,
@@ -33,6 +32,7 @@ const UserProfile = new Schema({
     set: String,
     rep: String,
   }],
+  meals: [],
 }, {timestamps: true});
 
 const SavedRecipeSchema = new Schema({
