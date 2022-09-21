@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, } from 'chart.js'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement} from 'chart.js'
 import { Chart } from 'react-chartjs-2';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, );
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
 const Graph = () => {
     return (
@@ -10,9 +10,10 @@ const Graph = () => {
             <Chart
             width={'100%'}
             height={'200%'}
-            type='bar'
+            type='pie'
             options={ 
                 {
+                    /*
                     scales: 
                         {
                             y: {
@@ -20,7 +21,14 @@ const Graph = () => {
                                 yAxisKey: 'example'
                             },
                         },
-                    maintainAspectRatio: false
+                    */
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '# of entries with mood'
+                        }
+                    },
                 }
             }
             data={ 
@@ -28,20 +36,27 @@ const Graph = () => {
                     labels: ['Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'], 
                     datasets: [
                         {
-                            type: 'bar',
+                            type: 'pie',
                             label: 'Number of Entries with Mood',
-                            backgroundColor: 'rgb(75, 192, 192)',
+                            backgroundColor: ['blue', 'rgb(75, 192, 192)', 'white', 'gray', 'black'],
                             data: ['Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'].map(() => Math.floor(Math.random() * 10)),
                             borderColor: 'white',
                             borderWidth: 2,
                             parsing: {
+                                /*
                                 y:
                                     {
                                         yAxisKey: 'example'
-                                    }
+                                    },
+                                */
                             },
                         },
-                    ]
+                    ],
+                    
+                    title: {
+                        display: true,
+                        text: '# of entries with mood'
+                    },
                 } 
             }
             ></Chart>
