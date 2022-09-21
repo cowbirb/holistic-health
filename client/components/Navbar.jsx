@@ -16,7 +16,7 @@ function Navbar() {
         <Toolbar>
           <NavMenu />
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            EatSmart
+            HolisticYou
           </Typography>
           <LoginButton />
           <SignupButton />
