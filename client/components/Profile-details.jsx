@@ -1,122 +1,139 @@
-import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import axios from 'axios';
-import CalorieCalc from './CalorieCalc.jsx';
-import Exercise from './Exercise.jsx';
-import Meals from './Meals.jsx';
+import React, { useState, useEffect } from "react";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import axios from "axios";
+import CalorieCalc from "./CalorieCalc.jsx";
+
 
 //Textfield select
 const sexes = [
   {
-    value: 'male',
-    label: 'M',
+    value: "male",
+    label: "M",
   },
   {
-    value: 'female',
-    label: 'F',
+    value: "female",
+    label: "F",
   },
 ];
 
-function ProfileDetails({ user, calorieCount, setCalorieCount }) {
+function ProfileDetails({ user }) {
+
   //Material-ui: Textfield props
   const inputProps = {
-    type: 'number',
+    type: "number",
   };
 
   const labelProps = {
     shrink: true,
   };
 
-  const [userInfo, setUserInfo] = useState({
-    sex: sexes[0].value,
-    age: 0,
-    height: 0,
-    weight: 0,
-  });
+  //React Hooks and functions
+  const [userSex, setSex] = useState(sexes[0].value);
+  const [userAge, setAge] = useState(0);
+  const [userHeight, setHeight] = useState(0);
+  const [userWeight, setWeight] = useState(0);
+  const [calorieCount, setCalorieCount] = useState(0);
 
   // handels setting state of Textfields
   const handleFieldChange = (event) => {
     const { value, name } = event.target;
-    setUserInfo(userInfo => ({...userInfo,
-        [name]: value,
-    }));
+
+    // determine which setState needs to be called
+    switch (name) {
+      case "Age":
+        setAge(value);
+        break;
+      case "Weight":
+        setWeight(value);
+        break;
+      case "Height":
+        setHeight(value);
+        break;
+      case "Sex":
+        setSex(value);
+        break;
+    }
   };
 
-  // on Update click send axios put request that will communicate with server
-  const handleUpdateOnClick = () => {
-    const {sex, age, height, weight} = userInfo;
-    axios
-      .put(`/profile/${user.email}`, {users: {
-        age,
-        height,
-        weight,
-        sex,
-      }
-      })
-      .then(() => console.log('profile update successful'))
-      .catch(err => console.error('profile update unsuccessful', err));
+  const handleUpdateOnClick = async () => {
+    try{
+      await axios.put(`/api/user/${user._id}`, {
+        user: {
+          age: userAge,
+          height: userHeight,
+          weight: userWeight,
+          sex: userSex,
+        },
+      });
+    } catch(err){
+      console.log(err)
+    }
   };
 
-  // send axios get request to get user information not provided by Auth0
-  const getProfileDetails = () => {
-    axios
-      .get(`/profile/${user.email}`)
-      .then(({ data }) => setUserInfo(data))
-      .catch((err) => console.log('profile get unsuccessful', err));
-  };
-
+  
   //run immediately after rendering
   useEffect(() => {
-    getProfileDetails();
+    if(user.age){
+      setAge(user.age);
+    }
+    if(user.height){
+      setHeight(user.height);
+    }
+    if(user.weight){
+      setWeight(user.weight);
+    }
+    if(user.sex){
+      setSex(user.sex);
+    }
   }, []);
 
   return (
     <div>
       <Box
         sx={{
-          border: '1px',
-          borderColor: 'grey',
+          border: "1px",
+          borderColor: "grey",
         }}
       >
 
         <TextField
-          id='Agefield'
-          name='age'
-          label='Age'
-          value={userInfo.age}
+          id="Agefield"
+          name="Age"
+          label="Age"
+          value={userAge}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
         ></TextField>
 
         <TextField
-          id='Heightfield'
-          name='height'
-          label='Height'
-          value={userInfo.height}
+          id="Heightfield"
+          name="Height"
+          label="Height"
+          value={userHeight}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
         ></TextField>
 
         <TextField
-          id='Weightfield'
-          name='weight'
-          label='Weight'
-          value={userInfo.weight}
+          id="Weightfield"
+          name="Weight"
+          label="Weight"
+          value={userWeight}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
         ></TextField>
 
         <TextField
-          id='select-Sex'
-          name='sex'
+          id="select-Sex"
+          name="Sex"
           select
-          label='Sex'
+          label="Sex"
           InputLabelProps={labelProps}
           value={userInfo.sex}
           onChange={handleFieldChange}
@@ -131,8 +148,8 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
         </TextField>
 
         <Button
-          text='Update'
-          variant='outlined'
+          text="Update"
+          variant="outlined"
           onClick={() => {
             handleUpdateOnClick(user);
           }}

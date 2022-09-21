@@ -1,27 +1,25 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Auth0ProviderWithNavigate from './auth/auth0-provider-with-navigate.jsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
-import App from './components/App.jsx';
-import Profile from './components/Profile.jsx';
-import { AppContextProvider } from './context/AppContext.jsx';
-import {UserProvider} from './context/UserContext.jsx';
+import { Auth0Provider } from "@auth0/auth0-react";
+import { UserProvider } from "./context/user.context.jsx";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AppContextProvider>
     <BrowserRouter>
-      <Auth0ProviderWithNavigate>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+      >
         <UserProvider>
-          <Routes>
-            <Route path='/' element={<App />} />
-            <Route path='profile' element={<Profile />} />
-          </Routes>
+          <App />
         </UserProvider>
-      </Auth0ProviderWithNavigate>
+      </Auth0Provider>
     </BrowserRouter>
-  </AppContextProvider>
 );
