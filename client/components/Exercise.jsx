@@ -1,17 +1,22 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import {UserContext} from '../context/UserContext.jsx';
 
-const Exercise = ({user: {email}}) => {
-  const {currentUser, setCurrentUser} = useContext(UserContext);
+const Exercise = ({user}) => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [newExercise, setNewExercise] = useState({
     workout: '',
     set: '',
     rep: '',
   });
-
+  
+  useEffect(() => {
+    axios.get(`/profile/${user.email}`)
+    .then(({data}) => setCurrentUser(data))
+    .catch(err => console.log('exercise get unsuccessful', err));
+  }, [])
 
   const exerciseChange = (e) => {
     const {name, value} = e.target;
@@ -20,11 +25,8 @@ const Exercise = ({user: {email}}) => {
       [name]: value
     }));
   }
-
-  const updateWorkout = (e) => {
-    e.preventDefault();
-    axios.put(`/profile/${email}`, {users: {$push: {exercises: newExercise}}})
-    .then((data) => console.log(data))
+  const updateWorkout = () => {
+    axios.put(`/profile/${currentUser.email}`, {users: {$push: {exercises: newExercise}}})
     .then(() => setNewExercise({
       workout: '',
       set: '',
