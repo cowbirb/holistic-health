@@ -16,10 +16,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 
-app.post('/profile', (req, res) => {
+app.post('/user', (req, res) => {
   const {body: {user: {name, email, picture}}} = req;
   const newUser = {name, email, picture};
   Users.updateOne({email}, newUser, {upsert: true})
+  .then(({modifiedCount}) => {
+    if ({modifiedCount}) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(404);
+    }
+  })
   .catch(() => res.sendStatus(500))
 })
 
@@ -60,19 +67,19 @@ app.get('/profile/:email', (req, res) => {
   Users.findOne({email})
     .then((user) => {
       console.log(user)
-      if (!user) {
-        res.sendStatus(404);
+      if (user) {
+        res.status(200).send(user);
       } else {
-        res.sendStatus(200);
+        res.sendStatus(404);
       }
     })
     .catch(() => sendStatus(500));
 });
 
 app.put('/profile/:email', (req, res) => {
-  const { params: {id}, body: {users} } = req;
+  const { params: {email}, body: {users} } = req;
   
-  Users.updateOne({ _id: id }, users)
+  Users.updateOne({ email }, users)
     .then(({modifiedCount}) => {
       if ({modifiedCount}) {
         res.sendStatus(200);
