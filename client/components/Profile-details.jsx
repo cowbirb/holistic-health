@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import CalorieCalc from './CalorieCalc.jsx';
 import Exercise from './Exercise.jsx';
+import Meals from './Meals.jsx';
 
 //Textfield select
 const sexes = [
@@ -29,79 +30,63 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
     shrink: true,
   };
 
-  //React Hooks and functions
-  const [userSex, setSex] = useState(sexes[0].value);
-  const [userAge, setAge] = useState(0);
-  const [userHeight, setHeight] = useState(0);
-  const [userWeight, setWeight] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    sex: sexes[0].value,
+    age: 0,
+    height: 0,
+    weight: 0,
+  });
 
   // handels setting state of Textfields
   const handleFieldChange = (event) => {
     const { value, name } = event.target;
-
-    // determine which setState needs to be called
-    switch (name) {
-      case 'Age':
-        setAge(value);
-        break;
-      case 'Weight':
-        setWeight(value);
-        break;
-      case 'Height':
-        setHeight(value);
-        break;
-      case 'Sex':
-        setSex(value);
-        break;
-    }
+    setUserInfo(userInfo => ({...userInfo,
+        [name]: value,
+    }));
   };
 
   // on Update click send axios put request that will communicate with server
-  const handleUpdateOnClick = (user) => {
-    // send axios put request passing in user email as HTTP path parameter
-    // passing in object containing state for the update
-    // axios
-    //   .put(`/profile/${user.email}`, {
-    //     age: userAge,
-    //     height: userHeight,
-    //     weight: userWeight,
-    //     sex: userSex,
-    //   })
-    //   .then(({ status }) => {
-    //     console.log(status);
-    //   })
-    //   .catch((err) => {
-    //     console.error('could not send update to server =>', err);
-    //   });
+  const handleUpdateOnClick = () => {
+    const {sex, age, height, weight} = userInfo;
+    axios
+      .put(`/profile/${user.email}`, {users: {
+        age,
+        height,
+        weight,
+        sex,
+      }
+      })
+      .then(() => console.log('profile update successful'))
+      .catch(err => console.error('profile update unsuccessful', err));
   };
 
   // send axios get request to get user information not provided by Auth0
   const getProfileDetails = () => {
-  //   axios
-  //     .get(`/profile/${user.email}`)
-  //     .then(({ data, status }) => {
-  //       console.log('---->', data);
-  //       return data;
-  //     })
-  //     .then((data) => {
-  //       // setState to reflect user information
+    // axios
+    //   .get(`/profile/${user.email}`)
+    //   .then(({ data }) => {
+    //     console.log('---->', data);
+    //     return data;
+    //   })
+    //   .then((data) => {
+    //     // setState to reflect user information
 
-  //       if (data.age) {
-  //         setAge(data.age);
-  //       }
-  //       if (data.weight) {
-  //         setWeight(data.weight);
-  //       }
-  //       if (data.height) {
-  //         setHeight(data.height);
-  //       }
-  //       if (data.sex) {
-  //         setSex(data.sex);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log('could not get information', err);
-  //     });
+    //     if (data.age) {
+    //       setAge(data.age);
+    //     }
+    //     if (data.weight) {
+    //       setWeight(data.weight);
+    //     }
+    //     if (data.height) {
+    //       setHeight(data.height);
+    //     }
+    //     if (data.sex) {
+    //       setSex(data.sex);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log('could not get information', err);
+    //   });
   };
 
   //run immediately after rendering
@@ -119,9 +104,9 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
       >
         <TextField
           id='Agefield'
-          name='Age'
+          name='age'
           label='Age'
-          value={userAge}
+          value={userInfo.age}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -129,9 +114,9 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
 
         <TextField
           id='Heightfield'
-          name='Height'
+          name='height'
           label='Height'
-          value={userHeight}
+          value={userInfo.height}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -139,9 +124,9 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
 
         <TextField
           id='Weightfield'
-          name='Weight'
+          name='weight'
           label='Weight'
-          value={userWeight}
+          value={userInfo.weight}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -149,11 +134,11 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
 
         <TextField
           id='select-Sex'
-          name='Sex'
+          name='sex'
           select
           label='Sex'
           InputLabelProps={labelProps}
-          value={userSex}
+          value={userInfo.sex}
           onChange={handleFieldChange}
         >
           {sexes.map((option) => {
@@ -178,13 +163,13 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
       <br />
       <Box>
         <CalorieCalc
-          userSex={userSex}
-          userAge={userAge}
-          userHeight={userHeight}
-          userWeight={userWeight}
+          userInfo={userInfo}
           calorieCount={calorieCount}
           setCalorieCount={setCalorieCount}
         />
+      </Box>
+      <Box>
+        <Meals />
       </Box>
       <Box>
        <Exercise user={user} />
