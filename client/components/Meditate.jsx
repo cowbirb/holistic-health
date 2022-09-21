@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Slider, Typography } from '@mui/material';
 // import Typography from '@mui/material/Typography';
 import chime from '../media/audio/meditation-chime.mp3';
-import Navbar from './Navbar.jsx';
 
-const Meditate = () => {
-  
+
+const Meditate = () => {  
   // initialize timer start value using useState
   const [userNum, setUserNum] = useState(600);
   // initialize a pause state value set to true
@@ -109,12 +108,6 @@ const Meditate = () => {
   
   return (
     <>
-
-      <Typography variant='h3' color='primary'>
-          HolisticYou
-      </Typography>
-
-      <Navbar />
       <h1>Meditate</h1>
       <br></br>
       <br></br>
@@ -131,7 +124,7 @@ const Meditate = () => {
         step={5}
         marks
         min={.1}
-        max={60}
+        max={30}
       />
       <section>
         { pause ? <button onClick={startTimer}>Start</button> : <button onClick={stopTimer}>Pause</button>}
