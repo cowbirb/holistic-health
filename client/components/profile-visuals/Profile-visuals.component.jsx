@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Graph from './Graph.component.jsx';
+import Summary from './Summary.component.jsx';
 
 const ProfileVisual = () => {
 
     return (
-        <Graph></Graph>
+        <div>
+            <Graph></Graph>
+            <Summary></Summary>
+        </div>
     );
 }
 
