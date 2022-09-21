@@ -16,6 +16,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 
+app.post('/profile', (req, res) => {
+  const {body: {user: {name, email, picture}}} = req;
+  const newUser = {name, email, picture};
+  Users.updateOne({email}, newUser, {upsert: true})
+  .catch(() => res.sendStatus(500))
+})
+
 app.post('/search/save', (req, res) => {
   const recipe = req.body;
 
@@ -47,46 +54,33 @@ app.get('/search', (req, res) => {
 });
 
 app.get('/profile/:email', (req, res) => {
-  // Destructre req.params for specific user when setting up client side
 
-  const email = req.params;
+  const {params: {email}} = req;
 
-  // use model method findOne to return the correct user document from the database
-  Users.findOne(email)
-    .then((userInfo) => {
-      if (!userInfo) {
+  Users.findOne({email})
+    .then((user) => {
+      console.log(user)
+      if (!user) {
         res.sendStatus(404);
       } else {
-        // destructure necessary properties from database
-        const { age, weight, height, sex } = userInfo;
-        // assign all properties to an object using object shorthand
-        const resData = { age, weight, height, sex };
-        res.status(200).send(resData);
+        res.sendStatus(200);
       }
     })
-    .catch((err) => {
-      console.log('Could not get data from database', err);
-    });
+    .catch(() => sendStatus(500));
 });
 
 app.put('/profile/:email', (req, res) => {
-  const { body } = req;
-  const { email } = req.params;
-
-  // model method updateOne identifies profile by email, then updates the appropriate field
-  Users.findOneAndUpdate({ email }, body)
-    .then((update) => {
-      // if update !== null
-      if (update) {
-        res.sendStatus(201);
+  const { params: {id}, body: {users} } = req;
+  
+  Users.updateOne({ _id: id }, users)
+    .then(({modifiedCount}) => {
+      if ({modifiedCount}) {
+        res.sendStatus(200);
       } else {
         res.sendStatus(404);
       }
     })
-    .catch((err) => {
-      console.error('There was a server error on update', err);
-      res.sendStatus(500);
-    });
+    .catch(() => res.sendStatus(500));
 });
 
 app.post('/myrecipes', (req, res) => {
