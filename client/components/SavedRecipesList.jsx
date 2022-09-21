@@ -30,12 +30,6 @@ const SavedRecipesList = ({
         ))}
       </Grid>
     </Container>
-
-    // <div className='saved_recipe'>
-    //   {savedRecipes.map((savedRecipe, index) => {
-    //     return <SavedRecipe savedRecipe={savedRecipe} key={index} getSavedRecipes={ getSavedRecipes }/>;
-    //   })}
-    // </div>
   );
 };
 
