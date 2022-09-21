@@ -1,19 +1,19 @@
 {
-  "name": "slackerss",
+  "name": "HolisticYou",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server",
     "build": "webpack",
+    "dev": "npm run build & npm run start",
     "lint": "./node_modules/.bin/eslint"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dow2/slackerss.git"
   },
-  "author": "",
+  "author": "cowbirb",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dow2/slackerss/issues"
@@ -26,6 +26,7 @@
     "@babel/preset-react": "^7.18.6",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@material-ui/core": "^4.12.4",
     "@material/card": "^14.0.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.0",

@@ -1,15 +1,30 @@
-import React from 'react';
-import SavedRecipe from './SavedRecipe.jsx';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
+import React, { useState, useEffect } from "react";
+import SavedRecipe from "./SavedRecipe.jsx";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 
-const SavedRecipesList = ({
-  savedRecipes,
-  getSavedRecipes,
-  calorieCount,
-  setCalorieCount,
-}) => {
+import axios from "axios";
+
+const SavedRecipesList = ({ calorieCount, setCalorieCount, user }) => {
+
+  const [recipes, setRecipes] = useState([]);
+
+  console.log(recipes);
+
+  useEffect(() => {
+    axios
+      .get(`/api/user/myrecipes/${user.email}`)
+      .then(({ data }) => {
+        console.log(data);
+        if(data.length > 0){
+        setRecipes(data);
+        }   
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container>
       <Grid
@@ -17,12 +32,11 @@ const SavedRecipesList = ({
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {savedRecipes.map((savedRecipe, index) => (
+        {recipes.length !== 0 && recipes.map((recipe, index) => (
           <Grid item key={index} xs={2} sm={3} md={4}>
             <SavedRecipe
-              savedRecipe={savedRecipe}
+              savedRecipe={recipe}
               key={index}
-              getSavedRecipes={getSavedRecipes}
               calorieCount={calorieCount}
               setCalorieCount={setCalorieCount}
             />
@@ -30,12 +44,6 @@ const SavedRecipesList = ({
         ))}
       </Grid>
     </Container>
-
-    // <div className='saved_recipe'>
-    //   {savedRecipes.map((savedRecipe, index) => {
-    //     return <SavedRecipe savedRecipe={savedRecipe} key={index} getSavedRecipes={ getSavedRecipes }/>;
-    //   })}
-    // </div>
   );
 };
 
