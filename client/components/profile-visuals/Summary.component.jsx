@@ -11,11 +11,11 @@ const Summary = () => {
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
-                <div style={{display: 'inline-block', 'vertical-align': 'top'}}>
+                <div style={{display: 'inline-block', verticalAlign: 'top'}}>
                     { true ? <img width='100' height='100' src={ birb } /> : <img width='75' height='100' src={ baron } /> }
                 </div>
-                <div style={{ display: 'inline-block', 'margin-left': '10px', 'border-left': '7px solid gray', 'border-right': '7px solid gray', 'border-bottom': '7px solid gray', background: 'gray'}}>
-                    <p style={{ color: 'blue', 'margin-bottom': '0px', 'margin-top': '5px' }} className="float-right">
+                <div style={{ display: 'inline-block', marginLeft: '10px', borderLeft: '7px solid gray', borderRight: '7px solid gray', borderBottom: '7px solid gray', background: 'gray'}}>
+                    <p style={{ color: 'blue', marginBottom: '0px', marginTop: '5px' }} className="float-right">
                         <u>{
                             `The wholesome cowbird says:`
                         }</u>
