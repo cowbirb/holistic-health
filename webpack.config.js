@@ -25,6 +25,13 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+        options: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        },
+      }
     ],
   },
 };
