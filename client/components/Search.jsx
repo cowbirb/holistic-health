@@ -16,23 +16,11 @@ function Search() {
   };
 
   return (
-    // <div className='search-body'>
-    //   <div className='search-bar'>
-    //     <form onSubmit={handleSubmit(onSubmit)}>
-    //       <div>
-    //         <input type='text' {...register('query')} />
-    //         <input type='submit' value='Search' />
-    //       </div>
-    //     </form>
-    //   </div>
-    //   <SearchFeed />
-    // </div>
-
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='searchBox'>
           <input
-            class='searchInput'
+            className='searchInput'
             type='text'
             name=''
             placeholder='Search'
