@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import {UserContext} from '../context/UserContext.jsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
@@ -14,20 +15,16 @@ function Profile() {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [calorieCount, setCalorieCount] = useState(0);
-  const getSavedRecipes = (user) => {
-    // axios
-    // .get('/myrecipes')
-    // .then(({ data }) => {
-      // const userRecipes = data.filter((recipe) => {
-        //   return recipe.User_email === user.email;
-        //   console.log('------>', userRecipes);
-        // console.log('profile component: ', data);
-        // });
-        // setSavedRecipes(userRecipes);
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
+
+  // console.log('currentUser: ', currentUser);
+  const getSavedRecipes = () => {
+    axios
+    .get('/myrecipes')
+    .then(({ data }) => {
+        data = data.filter(recipe => recipe.User_email === user.email);
+        setSavedRecipes(data);
+      })
+      .catch(err => console.log('profile get unsuccessful', err));
     };
     
     useEffect(() => {
@@ -42,7 +39,6 @@ function Profile() {
       </Typography>
     );
   }
-  
   //render when not logged in
   if (!isAuthenticated) {
     return (
@@ -58,37 +54,36 @@ function Profile() {
         </Typography>
       </div>
     );
+  } else {
+    return (
+        <div>
+          <Typography variant='h3' color='primary'>
+            EatSmart
+          </Typography>
+  
+          <Navbar />
+  
+          <img src={user.picture} />
+          <Typography variant='h5' color='primary'>
+            Welcome Back {user.name}
+          </Typography>
+          <br></br>
+          <ProfileDetails
+            user={user}
+            calorieCount={calorieCount}
+            setCalorieCount={setCalorieCount}
+          />
+          <br></br>
+          <SavedRecipesList
+            savedRecipes={savedRecipes}
+            getSavedRecipes={getSavedRecipes}
+            calorieCount={calorieCount}
+            setCalorieCount={setCalorieCount}
+          />
+        </div>
+    );
   }
 
-  return (
-    isAuthenticated && (
-      <div>
-        <Typography variant='h3' color='primary'>
-          EatSmart
-        </Typography>
-
-        <Navbar />
-
-        <img src={user.picture} />
-        <Typography variant='h5' color='primary'>
-          Welcome Back {user.name}
-        </Typography>
-        <br></br>
-        <ProfileDetails
-          user={user}
-          calorieCount={calorieCount}
-          setCalorieCount={setCalorieCount}
-        />
-        <br></br>
-        <SavedRecipesList
-          savedRecipes={savedRecipes}
-          getSavedRecipes={getSavedRecipes}
-          calorieCount={calorieCount}
-          setCalorieCount={setCalorieCount}
-        />
-      </div>
-    )
-  );
 }
 
 export default Profile;
