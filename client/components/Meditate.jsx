@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Slider } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Slider, Typography } from '@mui/material';
+// import Typography from '@mui/material/Typography';
 import chime from '../media/audio/meditation-chime.mp3';
 import Navbar from './Navbar.jsx';
 
