@@ -12,38 +12,37 @@ import Typography from '@mui/material/Typography';
 function Profile() {
   //Auth0
   const { user, isAuthenticated, isLoading } = useAuth0();
-
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [calorieCount, setCalorieCount] = useState(0);
-
   const getSavedRecipes = (user) => {
-    axios
-      .get('/myrecipes')
-      .then(({ data }) => {
-        console.log(data);
-        const userRecipes = data.filter((recipe) => {
-          return recipe.User_email === user.email;
-        });
-        setSavedRecipes(userRecipes);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    getSavedRecipes(user);
-  }, [isAuthenticated]);
-
-  //render while page is loading
-  if (isLoading) {
-    return (
-      <Typography variant='h2' color='primary'>
+    // axios
+    // .get('/myrecipes')
+    // .then(({ data }) => {
+      // const userRecipes = data.filter((recipe) => {
+        //   return recipe.User_email === user.email;
+        //   console.log('------>', userRecipes);
+        // console.log('profile component: ', data);
+        // });
+        // setSavedRecipes(userRecipes);
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // });
+    };
+    
+    useEffect(() => {
+      getSavedRecipes(user);
+    }, [isAuthenticated]);
+    
+    //render while page is loading
+    if (isLoading) {
+      return (
+        <Typography variant='h2' color='primary'>
         One second...
       </Typography>
     );
   }
-
+  
   //render when not logged in
   if (!isAuthenticated) {
     return (
