@@ -9,9 +9,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  plugins: [
-    new Dotenv(),
-  ],
+  plugins: [new Dotenv()],
   watch: true,
   module: {
     rules: [
@@ -34,4 +32,5 @@ module.exports = {
       }
     ],
   },
+  resolve: { extensions: ['*', '.js', '.jsx'] },
 };

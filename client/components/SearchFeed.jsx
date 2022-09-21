@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import { AppContext } from '../context/AppContext.jsx';
 import RecipeTile from '../components/RecipeTile.jsx';
 
-function SearchFeed() {
-  const { searchResults } = useContext(AppContext);
-
+function SearchFeed({ searchResults }) {
   if (searchResults !== '404') {
     return (
       <Container sx={{ pt: 15 }}>
