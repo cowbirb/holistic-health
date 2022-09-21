@@ -15,11 +15,36 @@ mongoose
   });
 
 const UserProfile = new Schema({
-  connection: String,
   email: {
     type: String,
     unique: true,
   },
+  savedWorkouts: [{
+    workout: String,
+    set: Number,
+    reps: Number,
+  }],
+  dateEntries: [{
+    date: Date, // createdAt??
+    emotion: String,
+    blog: String,
+    journal: [{
+      timeStamp: Date,
+      title: String,
+      message: String,
+      images: [String],
+    }],
+    didWorkout: Boolean,
+    didMeditate: Boolean,
+    meditateLength: Number,
+    workoutLength: Number,
+    foods: [{
+      calories: Number,
+      fat: Number,
+      carbs: Number,
+      protein: Number,
+    }],
+  }],
   weight: Number,
   height: Number,
   age: Number,
