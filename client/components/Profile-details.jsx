@@ -62,31 +62,10 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
 
   // send axios get request to get user information not provided by Auth0
   const getProfileDetails = () => {
-    // axios
-    //   .get(`/profile/${user.email}`)
-    //   .then(({ data }) => {
-    //     console.log('---->', data);
-    //     return data;
-    //   })
-    //   .then((data) => {
-    //     // setState to reflect user information
-
-    //     if (data.age) {
-    //       setAge(data.age);
-    //     }
-    //     if (data.weight) {
-    //       setWeight(data.weight);
-    //     }
-    //     if (data.height) {
-    //       setHeight(data.height);
-    //     }
-    //     if (data.sex) {
-    //       setSex(data.sex);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log('could not get information', err);
-    //   });
+    axios
+      .get(`/profile/${user.email}`)
+      .then(({ data }) => setUserInfo(data))
+      .catch((err) => console.log('profile get unsuccessful', err));
   };
 
   //run immediately after rendering
@@ -102,6 +81,7 @@ function ProfileDetails({ user, calorieCount, setCalorieCount }) {
           borderColor: 'grey',
         }}
       >
+
         <TextField
           id='Agefield'
           name='age'
