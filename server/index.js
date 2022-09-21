@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 
+// create a new user in the database
 app.post('/user', (req, res) => {
   const {body: {user: {name, email, picture}}} = req;
   const newUser = {name, email, picture};
@@ -60,8 +61,8 @@ app.get('/search', (req, res) => {
     });
 });
 
+// get single user from database
 app.get('/profile/:email', (req, res) => {
-
   const {params: {email}} = req;
 
   Users.findOne({email})
@@ -76,6 +77,7 @@ app.get('/profile/:email', (req, res) => {
     .catch(() => sendStatus(500));
 });
 
+// update a user by email property
 app.put('/profile/:email', (req, res) => {
   const { params: {email}, body: {users} } = req;
   
