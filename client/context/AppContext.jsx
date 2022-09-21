@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import axios from 'axios';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import {useAuth0} from '@auth0/auth0-react';
 
 const AppContext = createContext();
 
 function AppContextProvider({ children }) {
+  const {isAuthenticated, user} = useAuth0();
   const [searchResults, setSearchResults] = useState([]);
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [loggedRecipeCal, setLoggedRecipeCal] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const searchRecipes = ({ query }) => {
     axios
@@ -21,6 +24,7 @@ function AppContextProvider({ children }) {
   };
 
   const saveRecipe = (recipe) => {
+
     axios
       .post('/search/save', recipe)
       .then((response) => {
@@ -30,16 +34,22 @@ function AppContextProvider({ children }) {
       .catch((err) => console.error(err));
   };
 
-  // const getLoggedRecipe = () => {
-  //   axios.get(`/myrecipes/${savedRecipe._id}`)
-  //     .then(({data}) => {
-  //       console.log(Math.round(data[0].calories));
-  //       // setLoggedRecipeCal(loggedRecipeCal += (Math.round(data[0].calories)));
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
+  useEffect(() => {
+    if (isAuthenticated) {
+      const {name, email, picture} = currentUser;
+      axios.post('/profile', {user: {
+        name,
+        email,
+        picture,
+      }})
+      .then(({data}) => {
+        setCurrentUser(data);
+      })
+      .catch(err => console.log('profile post unsuccessful', err));
+    }
+  }, [isAuthenticated, user]);
+
+
 
   const appProps = {
     searchRecipes,
@@ -48,9 +58,6 @@ function AppContextProvider({ children }) {
     savedRecipes,
     setSavedRecipes,
     saveRecipe,
-    // getLoggedRecipe,
-    // loggedRecipeCal,
-    // setLoggedRecipeCal
   };
   return <AppContext.Provider value={appProps}>{children}</AppContext.Provider>;
 }
