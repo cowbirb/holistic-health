@@ -12,8 +12,6 @@ const userSchema = new Schema({
     emotions: [{
       emotion: String,
       emotion_summary: String,
-      user_email: String,
-      createdAt: String,
     }],
     journal_entries: [{
       title: String,
@@ -28,10 +26,22 @@ const userSchema = new Schema({
       carbs: Number,
       protein: Number,
     }],
-    did_meditate: Boolean,
-    did_workout: Boolean,
-    meditate_length: Number,
-    workout_length: Number,
+    did_meditate:{ 
+      type:Boolean,
+      default:false
+    },
+    did_workout: {
+      type:Boolean,
+      default:false
+    },
+    meditate_length: {
+      type: Number,
+      default: 0
+    },
+    workout_length: {
+      type: Number,
+      default: 0
+    }
   }],
 
   recipeList: [{
