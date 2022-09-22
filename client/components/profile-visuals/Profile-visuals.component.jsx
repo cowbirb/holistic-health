@@ -20,7 +20,7 @@ const ProfileVisual = () => {
                     <option value='excercise'>Excercise</option>
                 </select>
             </div>
-            {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <MeditationChart></MeditationChart> : graphView === 'excercise' ? <ExcerciseChart></ExcerciseChart> : <div>You Shouldn't See This</div>}
+            {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <MeditationChart></MeditationChart> : graphView === 'excercise' ? <ExcerciseChart></ExcerciseChart> : <div style={{display: 'flex', justifyContent: 'center', color: 'crimson'}}><b><u>You Shouldn't Be Seeing This</u></b></div>}
             <Summary></Summary>
         </div>
     );
