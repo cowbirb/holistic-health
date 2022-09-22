@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import birb from '../../../assets/cowbird-image.jpg';
 import baron from '../../../assets/Dore-munchausen-illustration.jpg';
+import { UserContext } from '../../context/user.context';
 
 const Summary = () => {
+    const { currentUser } = useContext(UserContext);
     const [commonMood, setCommMood] = useState('INSERT_MOOD_HERE');
     const [commonMeditate, setCommMed] = useState('INSERT_MEDITATION_TIME_HERE');
     const [commonExcercise, setCommExc] = useState('INSERT_EXCERCISE_TIME_HERE');
