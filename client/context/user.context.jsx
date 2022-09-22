@@ -22,8 +22,8 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated) {
       axios
-        .post("/api/user", { user })
-        .then(({config:{ data }}) => setCurrentUser(data))
+        .post("/api/user/googleAuth", { user })
+        .then(({data}) => setCurrentUser(data))
         .catch((err) => console.log(err));
     }
   }, [isAuthenticated, user]);
