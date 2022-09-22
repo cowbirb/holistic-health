@@ -108,12 +108,30 @@ const saveEmotion = async (req, res) => {
     // if the daily_info object exists, push the emotion object to the emotions array
     if (today) {
       today.emotions.push(emotion);
-      await user.save();
+    await user.save();
       res.sendStatus(200);
     }
   } catch (err) {
     console.log('could not save emotion', err);
     res.sendStatus(500);
+  }
+};
+
+const updateMeditate = async (req, res) => {
+  const { id } = req.params;
+  const { meditateLength } = req.body;
+  console.log('This is the id:\n', id);
+  try {
+    let user = await User.findById(id);
+    user.default_timer = meditateLength
+    let today = user.daily_info.find(info => info.date === new Date(Date.now()).toDateString());
+    today.did_meditate = true;
+    today.meditate_length = meditateLength;
+    await user.save();
+    res.status(201).json(user);
+  } catch (err) {
+    console.log('This is the error from updateMeditate:\n', err);
+    res.send(err).status(500);
   }
 };
 
@@ -125,7 +143,8 @@ module.exports = {
   saveRecipe,
   deleteRecipe,
   saveEmotion,
-  updateUser
+  updateUser,
+  updateMeditate
 };
 
 
