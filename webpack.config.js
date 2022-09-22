@@ -7,11 +7,10 @@ module.exports = {
   entry: path.resolve(__dirname, 'client', 'index.jsx'),
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'client/public/dist'),
     assetModuleFilename: '[name][ext]',
   },
   plugins: [new Dotenv()],
-  watch: true,
   module: {
     rules: [
       {
