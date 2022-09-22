@@ -12,11 +12,11 @@ const GuidedMeditation = () => {
 
   // retrieve videos
   setAxiosObject({
-    
+
   });
   const getVideos = () => {
     setAxiosObject({
-      
+
     })
     axios.get('https://www.googleapis.com/youtube/v3/search?', axiosObject)
       .then((data) => {
