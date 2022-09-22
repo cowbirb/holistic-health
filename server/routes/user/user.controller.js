@@ -103,6 +103,26 @@ const saveEmotion = async (req, res) => {
   }
 };
 
+const updateMeditate = (req, res) => {
+  const { id } = req.params;
+  console.log('This is the id:\n', id);
+  const date = new Date(Date.now()).toDateString();
+  User.findById(id)
+    .then((user) => {
+      console.log('this is the user:\n', user);
+      const dateObject = user.daily_info.date(date);
+      console.log('This is the date:\n', date);
+      console.log('This is the dateObject:\n', dateObject);
+      res.status(200).json(dateObject);
+    })
+    .catch((err) => {
+      console.log('This is the error from updateMeditate:\n', err);
+      res.send(err).status(500);
+
+    });
+  // const user = await User.findById({id, 'daily_info.date': new Date(Date.now()).toDateString()}, {});
+};
+
 
 module.exports = {
   saveUser,
@@ -111,7 +131,8 @@ module.exports = {
   saveRecipe,
   deleteRecipe,
   saveEmotion,
-  updateUser
+  updateUser,
+  updateMeditate
 };
 
 
