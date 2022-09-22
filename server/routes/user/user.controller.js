@@ -2,18 +2,17 @@ const { User } = require('../../models');
 
 
 const saveUser = async (req, res) => {
-    const { user } = req.body;
-    try {
-        const existingUser = await User.findOne({ email: user.email });
-        if (existingUser) {
-          res.json(existingUser);
-        } else {
-          const newUser = await User.create(user);
-          res.json(newUser);
-        }
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
+    const { body: {user: {name, email, picture}} } = req;
+    const newUser = {name, email, picture};
+    User.updateOne({ email }, newUser, {upsert: true})
+        .then(({modifiedCount}) => {
+            if ({modifiedCount}) {
+                res.sendStatus(201);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(() => res.sendStatus(500));
 };
 
 const getUser = async (req, res) => {
