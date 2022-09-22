@@ -11,7 +11,6 @@ module.exports = {
     assetModuleFilename: '[name][ext]',
   },
   plugins: [new Dotenv()],
-  watch: true,
   module: {
     rules: [
       {
