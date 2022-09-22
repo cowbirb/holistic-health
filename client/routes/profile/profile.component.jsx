@@ -5,9 +5,21 @@ import { UserContext } from '../../context/user.context.jsx';
 import sample1 from '../../../assets/Sample-Image-1.jpg';
 import sample2 from '../../../assets/Sample-Image-2.jpg';
 import sample3 from '../../../assets/Sample-Image-3.jpg';
+import axios from 'axios';
 
 const Profile = () => {
   const { currentUser } = useContext(UserContext);
+  const [setup, setSetup] = useState(true);
+  const [userProfile, setUserProfile] = useState(null);
+
+  if (setup) {
+    axios.get(`/api/user/632bf701cd4d0ef00f7796c2`)
+        .then(result => {
+            setSetup(false);
+            setUserProfile(result.data);
+        })
+        .catch(err => { console.error(err) });
+    }
   
   return (
     <div>
@@ -21,7 +33,7 @@ const Profile = () => {
           <p>{currentUser ? currentUser.email : 'ERROR'}</p>
         </div>
       </div>
-      <ProfileVisual></ProfileVisual>
+      <ProfileVisual userProfile={userProfile}></ProfileVisual>
     </div>
   );
 };
