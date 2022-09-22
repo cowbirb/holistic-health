@@ -24,6 +24,7 @@ const saveUser = async (req, res) => {
   }
 };
 
+
 const getUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -43,6 +44,22 @@ const updateUser = async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
+};
+
+
+const updateWorkout = (req, res) => {
+  const {params: {id}, body: {users}} = req;
+  // const date = new Date(Date.now()).toString();
+  // console.log(date);
+  User.updateOne({_id: id}, users)
+    .then(({modifiedCount}) => {
+      if ({modifiedCount}) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch(() => res.sendStatus(500));
 };
 
 
@@ -141,7 +158,8 @@ module.exports = {
   deleteRecipe,
   saveEmotion,
   updateUser,
-  updateMeditate
+  updateMeditate,
+  updateWorkout,
 };
 
 
