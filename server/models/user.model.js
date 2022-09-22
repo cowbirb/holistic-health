@@ -45,7 +45,7 @@ const userSchema = new Schema({
     workout_length: {
       type: Number,
       default: 0
-    }
+    },
   }],
 
   recipeList: [{
@@ -65,11 +65,9 @@ const userSchema = new Schema({
 
   saved_workouts: [{
     workout: String,
-    set: Number,
-    reps: Number,
+    set: String,
+    reps: String,
   }],
-
-
 });
 
 module.exports = model('User', userSchema);
