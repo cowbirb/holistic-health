@@ -2,16 +2,16 @@ import React, {useState, useContext, useEffect} from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import axios from 'axios';
-import {UserContext, setCurrentUser} from '../../context/user.context';
+import {UserContext} from '../../context/user.context';
 
 const Exercise = () => {
-  const {currentUser} = useContext(UserContext);
+  const {currentUser, setCurrentUser} = useContext(UserContext);
   const [newExercise, setNewExercise] = useState({
     workout: '',
     set: '',
     rep: '',
   });
-  console.log('user: ', currentUser);
+  
   useEffect(() => {
     axios.get(`/api/user/${currentUser.email}`)
     .then(({data}) => setCurrentUser(data))
@@ -34,7 +34,7 @@ const Exercise = () => {
     }))
     .catch(err => console.log('workout update unsuccessful', err));
   };
-
+  console.log('user: ', currentUser);
   return (
     <Box>
       <TextField
@@ -62,6 +62,7 @@ const Exercise = () => {
         type='submit'
         onClick={updateWorkout}
       >Update Workout</button>
+      {/* {currentUser.map(user => (<div>{user.exercises}</div>))} */}
     </Box>
   )
 }
