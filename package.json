@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server",
     "build": "webpack",
-    "dev": "npm run build & npm run start",
+    "dev": "npm run build --watch & npm run start",
     "lint": "./node_modules/.bin/eslint"
   },
   "repository": {
