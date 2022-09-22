@@ -6,14 +6,14 @@ import axios from "axios";
 // as the actual value you want to access
 export const UserContext = createContext({
   currentUser: null,
-  setCurrentUser: () => null,
+  setCurrentUser: () => {},
 });
 
 // provider
 // eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const value = { currentUser, setCurrentUser, isAuthenticated, loginWithRedirect, logout };
 
   // immediately after the user logs in, we want to set the currentUser to the user object
