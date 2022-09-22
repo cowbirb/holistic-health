@@ -108,7 +108,7 @@ const saveEmotion = async (req, res) => {
     // if the daily_info object exists, push the emotion object to the emotions array
     if (today) {
       today.emotions.push(emotion);
-      await user.save();
+    await user.save();
       res.sendStatus(200);
     }
   } catch (err) {
