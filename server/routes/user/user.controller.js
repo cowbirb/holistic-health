@@ -117,24 +117,22 @@ const saveEmotion = async (req, res) => {
   }
 };
 
-const updateMeditate = (req, res) => {
+const updateMeditate = async (req, res) => {
   const { id } = req.params;
+  const { meditateLength } = req.body;
   console.log('This is the id:\n', id);
-  const date = new Date(Date.now()).toDateString();
-  User.findById(id)
-    .then((user) => {
-      console.log('this is the user:\n', user);
-      const dateObject = user.daily_info.date(date);
-      console.log('This is the date:\n', date);
-      console.log('This is the dateObject:\n', dateObject);
-      res.status(200).json(dateObject);
-    })
-    .catch((err) => {
-      console.log('This is the error from updateMeditate:\n', err);
-      res.send(err).status(500);
-
-    });
-  // const user = await User.findById({id, 'daily_info.date': new Date(Date.now()).toDateString()}, {});
+  try {
+    let user = await User.findById(id);
+    user.default_timer = meditateLength
+    let today = user.daily_info.find(info => info.date === new Date(Date.now()).toDateString());
+    today.did_meditate = true;
+    today.meditate_length = meditateLength;
+    await user.save();
+    res.status(201).json(user);
+  } catch (err) {
+    console.log('This is the error from updateMeditate:\n', err);
+    res.send(err).status(500);
+  }
 };
 
 
