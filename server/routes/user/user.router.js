@@ -11,6 +11,7 @@ userRouter.post("/emotionOfTheDay", saveEmotion);
 userRouter.post("/googleAuth", saveUser);
 
 userRouter.get("/myrecipes/:email", getRecipes);
+
 userRouter.delete("/myrecipes/:id", deleteRecipe);
 
 userRouter.post("/myrecipes/:id", saveRecipe);
