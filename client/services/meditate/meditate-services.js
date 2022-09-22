@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // create a function that will update the meditate props in the database
 const updateMeditateProps = (userId, meditateLength) => {
   axios.put(`/api/user/meditate/${userId}`, {meditateLength})
