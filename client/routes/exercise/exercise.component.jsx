@@ -6,57 +6,54 @@ import {UserContext} from '../../context/user.context';
 
 const Exercise = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
-  const [newExercise, setNewExercise] = useState({
+  const [newWorkout, setNewWorkout] = useState({
     workout: '',
     set: '',
-    rep: '',
+    reps: '',
   });
-  
-  useEffect(() => {
-    axios.get(`/api/user/${currentUser.email}`)
-    .then(({data}) => setCurrentUser(data))
-    .catch(err => console.log('exercise get unsuccessful', err));
-  }, [])
 
-  const exerciseChange = (e) => {
+  const workoutChange = (e) => {
     const {name, value} = e.target;
-    setNewExercise(newExercise => ({
-      ...newExercise,
+    setNewWorkout(newWorkout => ({
+      ...newWorkout,
       [name]: value
     }));
   }
+
   const updateWorkout = () => {
-    axios.put(`/api/user/${currentUser._id}`, {users: {$push: {exercises: newExercise}}})
-    .then(() => setNewExercise({
-      workout: '',
-      set: '',
-      rep: '',
-    }))
-    .catch(err => console.log('workout update unsuccessful', err));
+   if (newWorkout.workout) {
+     axios.put(`/api/user/${currentUser._id}`, {users: {$push: {saved_workouts: newWorkout}}})
+     .then(() => setNewWorkout({
+       workout: '',
+       set: '',
+       reps: '',
+     }))
+     .catch(err => console.log('workout update unsuccessful', err));
+   }
   };
-  console.log('user: ', currentUser);
+  
   return (
     <Box>
       <TextField
         placeholder='name of exercise'
         type='text'
         name='workout'
-        value={newExercise.workout}
-        onChange={exerciseChange}
+        value={newWorkout.workout}
+        onChange={workoutChange}
       >Name of Exercise</TextField>
       <TextField
         placeholder='number of sets'
         type='text'
         name='set'
-        value={newExercise.set}
-        onChange={exerciseChange}
+        value={newWorkout.set}
+        onChange={workoutChange}
       >Number of Sets</TextField>
       <TextField
         placeholder='number of reps'
         type='text'
-        name='rep'
-        value={newExercise.rep}
-        onChange={exerciseChange}
+        name='reps'
+        value={newWorkout.reps}
+        onChange={workoutChange}
       >Number of Reps</TextField>
       <button
         type='submit'
