@@ -2,13 +2,21 @@ const { User } = require('../../models');
 
 
 const saveUser = async (req, res) => {
+  // add today's date to the user's daily_info array
   const { user } = req.body;
   try {
     const existingUser = await User.findOne({ email: user.email });
     if (existingUser) {
-      res.json(existingUser);
+      // if the user already exists, add today's date to the daily_info array 
+      // check if the date already exists in the daily_info array and if it does not match the current date, add it to the array
+      const today = existingUser.daily_info.find(info => info.date === new Date(Date.now()).toDateString());
+      if (!today) {
+        existingUser.daily_info.push({ date: new Date(Date.now()).toDateString() });
+        await existingUser.save();
+      }
+      res.status(200).json(existingUser);
     } else {
-      const newUser = await User.create(user);
+      const newUser = await User.create( { ...user, daily_info: { date: new Date(Date.now()).toDateString() } });
       res.json(newUser);
     }
   } catch (error) {
@@ -92,11 +100,17 @@ const deleteRecipe = async (req, res) => {
 
 const saveEmotion = async (req, res) => {
   const { emotion } = req.body;
+  const { id } = req.params;
   try {
-    const user = await User.findOne({ email: emotion.user_email });
-    user.daily_info.emotions.push(emotion);
-    await user.save();
-    res.sendStatus(201);
+    const user = await User.findOne({ _id: id });
+    // find the daily_info object in the daily_info array that matches the current date 
+    const today = user.daily_info.find(info => info.date === new Date(Date.now()).toDateString());
+    // if the daily_info object exists, push the emotion object to the emotions array
+    if (today) {
+      today.emotions.push(emotion);
+      await user.save();
+      res.sendStatus(200);
+    }
   } catch (err) {
     console.log('could not save emotion', err);
     res.sendStatus(500);
