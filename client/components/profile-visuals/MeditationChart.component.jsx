@@ -12,26 +12,24 @@ const MeditationChart = () => {
     const [totalAvg, setTotalAvg] = useState(0);
     const [setup, setSetup] = useState(true);
 
-    axios.get('api/users/632bf701cd4d0ef00f7796c2')
-        .then(result => {
-            setUserInfo(result.data.daily_info);
-        })
-        .catch(err => console.error(err));
-
     const calculateAvg = (arr) => {
         let output = 0;
         for (let i = 0; i < arr.length; i++) {
-            output += arr.meditate_length;
+            output += arr[i].meditate_length;
         }
         output /= arr.length;
         output /= 60;
         return output;
     }
+    
+    axios.get('/api/user/632bf701cd4d0ef00f7796c2')
+        .then(result => {
+            setTotalAvg(calculateAvg(result.data.daily_info));
+        })
+        .catch(err => console.error(err));
 
     if (setup) {
-        console.log('setting up!');
         if (userInfo) {
-            console.log('setting up total average!');
             setTotalAvg(calculateAvg(userInfo));
         }
         setSetup(false);
