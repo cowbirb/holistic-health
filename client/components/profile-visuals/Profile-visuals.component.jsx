@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PieChart from './PieChart.component.jsx';
 import Summary from './Summary.component.jsx';
+import MeditationChart from './MeditationChart.component.jsx';
+import ExcerciseChart from './ExcerciseChart.component.jsx';
 
 const ProfileVisual = () => {
     const [graphView, setGraphView] = useState('entries');
@@ -18,7 +20,7 @@ const ProfileVisual = () => {
                     <option value='excercise'>Excercise</option>
                 </select>
             </div>
-            {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <div>meditation graph here</div> : <div>excercise graph here</div>}
+            {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <MeditationChart></MeditationChart> : graphView === 'excercise' ? <ExcerciseChart></ExcerciseChart> : <div>You Shouldn't See This</div>}
             <Summary></Summary>
         </div>
     );
