@@ -11,11 +11,14 @@ const ProfileVisual = () => {
 
     return (
         <div id="ProfileVisual">
-            <select value={graphView} onChange={selectHandler}>
-                <option value='entries' selected>Entries</option>
-                <option value='other'>Other</option>
-            </select>
-            {graphView === 'entries' ? <PieChart></PieChart> : <div>test</div>}
+            <div id="ProfileButtons" style={{display: 'flex', justifyContent: 'center'}}>
+                <select value={graphView} onChange={selectHandler}>
+                    <option value='entries'>Entries</option>
+                    <option value='meditation'>Meditation</option>
+                    <option value='excercise'>Excercise</option>
+                </select>
+            </div>
+            {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <div>meditation graph here</div> : <div>excercise graph here</div>}
             <Summary></Summary>
         </div>
     );
