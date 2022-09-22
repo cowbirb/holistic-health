@@ -8,7 +8,7 @@ userRouter.put("/:id", updateUser);
 
 userRouter.post("/emotionOfTheDay", saveEmotion);
 
-userRouter.post("/googleAuth", saveUser);
+userRouter.post("/", saveUser);
 
 userRouter.get("/myrecipes/:email", getRecipes);
 
