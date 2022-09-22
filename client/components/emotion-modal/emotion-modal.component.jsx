@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   Button,
   Dialog,
@@ -11,13 +11,13 @@ import {
   TextField,
   Rating,
   styled,
-} from "@mui/material";
+} from '@mui/material';
 
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
 // import {
 //     SentimentVeryDissatisfiedIcon,
@@ -30,13 +30,13 @@ import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfi
 const EmotionModal = () => {
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(true);
-  const [emotion, setEmotion] = useState("Neutral");
-  const [journalEntry, setJournalEntry] = useState("");
+  const [emotion, setEmotion] = useState('Neutral');
+  const [journalEntry, setJournalEntry] = useState('');
   const { user, isAuthenticated } = useAuth0();
   //   console.log(emotion);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
-    "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
+    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
       color: theme.palette.action.disabled,
     },
   }));
@@ -44,23 +44,23 @@ const EmotionModal = () => {
   const Icons = {
     1: {
       icon: <SentimentVeryDissatisfiedIcon color="error" />,
-      label: "Very Angry",
+      label: 'Very Angry',
     },
     2: {
       icon: <SentimentDissatisfiedIcon color="error" />,
-      label: "Angry",
+      label: 'Angry',
     },
     3: {
       icon: <SentimentSatisfiedIcon color="warning" />,
-      label: "Neutral",
+      label: 'Neutral',
     },
     4: {
       icon: <SentimentSatisfiedAltIcon color="success" />,
-      label: "Happy",
+      label: 'Happy',
     },
     5: {
       icon: <SentimentVerySatisfiedIcon color="success" />,
-      label: "Very Happy",
+      label: 'Very Happy',
     },
   };
 
@@ -85,11 +85,11 @@ const EmotionModal = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("/api/user/emotionOfTheDay", {
+      await axios.post('/api/user/emotionOfTheDay', {
         emotion: {
           emotion: emotion,
-          journalEntry: journalEntry,
-          userEmail: user.email,
+          emotion_summary: journalEntry,
+          user_email: user.email,
           createdAt: new Date(),
         },
       });
@@ -109,7 +109,7 @@ const EmotionModal = () => {
   //set show to false if user closes modal and clear the local storage after 24 hours to show modal again
   useEffect(() => {
     if (show === false) {
-      localStorage.setItem("show", false);
+      localStorage.setItem('show', false);
       setTimeout(() => {
         localStorage.clear();
       }, 86400000);
@@ -117,7 +117,7 @@ const EmotionModal = () => {
   }, [show]);
 
   useEffect(() => {
-    if (localStorage.getItem("show") === "false") {
+    if (localStorage.getItem('show') === 'false') {
       setShow(false);
     }
   }, []);
@@ -134,15 +134,15 @@ const EmotionModal = () => {
             <StyledRating
               name="highlight-selected-only"
               defaultValue={
-                emotion === "Very Angry"
+                emotion === 'Very Angry'
                   ? 1
-                  : emotion === "Angry"
-                  ? 2
-                  : emotion === "Neutral"
-                  ? 3
-                  : emotion === "Happy"
-                  ? 4
-                  : 5
+                  : emotion === 'Angry'
+                    ? 2
+                    : emotion === 'Neutral'
+                      ? 3
+                      : emotion === 'Happy'
+                        ? 4
+                        : 5
               }
               getLabelText={(value) => Icons[value].label}
               IconContainerComponent={IconContainer}

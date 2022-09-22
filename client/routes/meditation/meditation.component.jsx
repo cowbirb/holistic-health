@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
+import Meditate from '../../components/Meditate.jsx';
 
 const Meditation = () => {
   return (
     <>
-      <div>
-        <h1>Meditation</h1>
-      </div>
+      <Meditate />
     </>
   );
 };

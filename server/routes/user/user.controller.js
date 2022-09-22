@@ -16,13 +16,13 @@ const saveUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const user = await User.findById(id);
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 
@@ -70,7 +70,7 @@ const saveRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
-    const { params: {id}, body: {currentUser} } = req.params;
+    const { params: {id}, body: {currentUser} } = req;
 
     try {
         const user = await User.findOne({ _id: currentUser._id });
@@ -87,27 +87,27 @@ const deleteRecipe = async (req, res) => {
 
 
 const saveEmotion = async (req, res) => {
-    const { emotion } = req.body;
-    try {
-        const user = await User.findOne({ email: emotion.userEmail });
-        user.emotions.push(emotion);
-        await user.save();
-        res.sendStatus(201);
-    } catch (err) {
-        console.log('could not save emotion', err);
-        res.sendStatus(500);
-    }
+  const { emotion } = req.body;
+  try {
+    const user = await User.findOne({ email: emotion.user_email });
+    user.daily_info.emotions.push(emotion);
+    await user.save();
+    res.sendStatus(201);
+  } catch (err) {
+    console.log('could not save emotion', err);
+    res.sendStatus(500);
+  }
 };
 
 
 module.exports = {
-    saveUser,
-    getUser,
-    getRecipes,
-    saveRecipe,
-    deleteRecipe,
-    saveEmotion,
-    updateUser
+  saveUser,
+  getUser,
+  getRecipes,
+  saveRecipe,
+  deleteRecipe,
+  saveEmotion,
+  updateUser
 };
 
 
