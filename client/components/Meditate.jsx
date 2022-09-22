@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { Slider, Typography } from '@mui/material';
+import { UserContext } from '../context/user.context.jsx';
 // import Typography from '@mui/material/Typography';
 import chime from '../media/audio/meditation-chime.mp3';
+import updateMeditateProps from '../services/meditate/meditate-services.js';
 
 
 const Meditate = () => {  
+  const { currentUser } = useContext(UserContext);
   // initialize timer start value using useState
-  const [userNum, setUserNum] = useState(600);
+  const [userNum, setUserNum] = useState(currentUser.default_timer || 600);
   // initialize a pause state value set to true
   const [pause, setPause] = useState(true);
   
@@ -56,6 +59,7 @@ const Meditate = () => {
         // otherwise
         } else {
           // change the value of timesUp
+          updateMeditateProps(currentUser._id, userNum);
           setIsTimeUp(true);
           // reset the timer
           resetTimer();

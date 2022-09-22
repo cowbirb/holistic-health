@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState, useEffect, useContext } from 'react';
+import {UserContext} from '../../context/user.context.jsx';
 import {
   Button,
   Dialog,
@@ -19,21 +19,12 @@ import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
-// import {
-//     SentimentVeryDissatisfiedIcon,
-//     SentimentDissatisfiedIcon,
-//     SentimentSatisfiedIcon,
-//     SentimentSatisfiedAltIcon,
-//     SentimentVerySatisfiedIcon,
-// } from "@mui/icons-material";
-
 const EmotionModal = () => {
   const [open, setOpen] = useState(true);
   const [show, setShow] = useState(true);
   const [emotion, setEmotion] = useState('Neutral');
   const [journalEntry, setJournalEntry] = useState('');
-  const { user, isAuthenticated } = useAuth0();
-  //   console.log(emotion);
+  const { currentUser, isAuthenticated } = useContext(UserContext);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
     '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -85,12 +76,10 @@ const EmotionModal = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('/api/user/emotionOfTheDay', {
+      await axios.post(`/api/user/${currentUser._id}/emotionOfTheDay`, {
         emotion: {
           emotion: emotion,
           emotion_summary: journalEntry,
-          user_email: user.email,
-          createdAt: new Date(),
         },
       });
     } catch (err) {
