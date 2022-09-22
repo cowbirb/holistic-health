@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement} from 'chart.js'
 import { Chart } from 'react-chartjs-2';
 import { UserContext } from '../../context/user.context';
-import axios from 'axios';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
@@ -22,12 +21,6 @@ const MeditationChart = () => {
         return output;
     }
     
-    axios.get('/api/user/632bf701cd4d0ef00f7796c2')
-        .then(result => {
-            setTotalAvg(calculateAvg(result.data.daily_info));
-        })
-        .catch(err => console.error(err));
-
     if (setup) {
         if (userInfo) {
             setTotalAvg(calculateAvg(userInfo));
