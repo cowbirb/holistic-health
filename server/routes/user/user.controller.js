@@ -28,8 +28,7 @@ const getUser = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
-    const { user } = req.body;
-    const { id } = req.params;
+    const { params: {id}, body: {user} } = req;
     try {
         await User.findOneAndUpdate({ id }, user, { new: true });
         res.sendStatus(200)
@@ -41,7 +40,7 @@ const updateUser = async (req, res) => {
 
 const getRecipes = async (req, res) => {
 // get the recipes in the recipesList array from the user
-    const { email } = req.params;
+    const { params: {email} } = req;
     try {
         const user = await User.findOne({ email });
         // checks if the user has any recipes in the recipeList array
@@ -57,8 +56,7 @@ const getRecipes = async (req, res) => {
 
 
 const saveRecipe = async (req, res) => {
-  const { recipe } = req.body;
-    const { id } = req.params;
+  const { params: {id}, body: {recipe} } = req;
 
     try {
         const user = await User.findOne({ _id: id });
@@ -73,9 +71,8 @@ const saveRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
-    const { id } = req.params;
-    const { currentUser } = req.body;
-    // console.log(currentUser);
+    const { params: {id}, body: {currentUser} } = req.params;
+
     try {
         const user = await User.findOne({ _id: currentUser._id });
 // find the recipe in the recipeList array by id and remove it from the array 
