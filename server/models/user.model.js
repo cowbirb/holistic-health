@@ -7,6 +7,10 @@ const userSchema = new Schema({
   weight: Number,
   height: Number,
   age: Number,
+  default_timer: {
+    type: Number,
+    default: 600,
+  },
   daily_info: [{
     date: String,
     emotions: [{
