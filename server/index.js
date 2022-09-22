@@ -7,20 +7,20 @@ const api = require("./routes/api");
 
 const port = 3000;
 
-const distPath = path.resolve(__dirname, "..", "dist");
+const publicPath = path.resolve(__dirname, "../client/public");
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(distPath));
+app.use(express.static(publicPath));
 
 // Routes
 app.use("/api", api);
 
 app.get("/*", (req, res) => {
   res.sendFile(
-    path.resolve(__dirname, "..", "dist", "index.html"),
+    path.resolve(__dirname, "../client/public/index.html"),
     (data, err) => {
       if (err) {
         res.status(500).send(err);
