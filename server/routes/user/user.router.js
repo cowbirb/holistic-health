@@ -15,7 +15,7 @@ userRouter.delete('/myrecipes/:id', deleteRecipe);
 
 userRouter.post('/myrecipes/:id', saveRecipe);
 
-userRouter.get('/meditate/:id', updateMeditate);
+userRouter.put('/meditate/:id', updateMeditate);
 
 
 
