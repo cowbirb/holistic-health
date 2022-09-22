@@ -26,7 +26,7 @@ const Exercise = () => {
     }));
   }
   const updateWorkout = () => {
-    axios.put(`/profile/${currentUser.email}`, {users: {$push: {exercises: newExercise}}})
+    axios.put(`/api/user/${currentUser._id}`, {users: {$push: {exercises: newExercise}}})
     .then(() => setNewExercise({
       workout: '',
       set: '',
