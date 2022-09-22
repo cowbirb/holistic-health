@@ -4,7 +4,9 @@ import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
-const PieChart = () => {
+const PieChart = (props) => {
+    const [userProfile, setUserProfile] = useState(props.userProfile);
+
     return (
         <div>
             <Chart

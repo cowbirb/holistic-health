@@ -5,8 +5,10 @@ import { UserContext } from '../../context/user.context';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
-const MeditationChart = () => {
+const MeditationChart = (props) => {
     const { currentUser } = useContext(UserContext);
+    const [userProfile, setUserProfile] = useState(props.userProfile);
+    const [totalAvg, setTotalAvg] = useState(0);
 
     return (
         <div id='MeditationChart'>
@@ -35,13 +37,13 @@ const MeditationChart = () => {
             }
             data={
                 {
-                    labels: ['Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'],
+                    labels: ['total','Very Happy', 'Happy', 'Neutral', 'Sad', 'Depressed'],
                     datasets: [
                         {
                             type: 'bar',
-                            backgroundColor: ['darkgreen', 'green', 'limegreen', 'lime', 'chartreuse'],
-                            data: [1, 2, 3, 4, 5],
-                            borderColor: ['darkgreen', 'green', 'limegreen', 'lime', 'chartreuse'],
+                            backgroundColor: ['seagreen', 'darkgreen', 'green', 'limegreen', 'lime', 'chartreuse'],
+                            data: [totalAvg, 1, 2, 3, 4, 5],
+                            borderColor: ['seagreen', 'darkgreen', 'green', 'limegreen', 'lime', 'chartreuse'],
                             borderWidth: 2,
                         }
                     ],

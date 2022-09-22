@@ -4,7 +4,9 @@ import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
-const ExcerciseChart = () => {
+const ExcerciseChart = (props) => {
+    const [userProfile, setUserProfile] = useState(props.userProfile);
+
     return (
         <div id='ExcerciseChart'>
             Excercise chart here
