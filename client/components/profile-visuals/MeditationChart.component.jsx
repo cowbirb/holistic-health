@@ -2,13 +2,40 @@ import React, { useState, useContext } from 'react';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement} from 'chart.js'
 import { Chart } from 'react-chartjs-2';
 import { UserContext } from '../../context/user.context';
+import axios from 'axios';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
 
-const MeditationChart = (props) => {
+const MeditationChart = () => {
     const { currentUser } = useContext(UserContext);
-    const [userProfile, setUserProfile] = useState(props.userProfile);
+    const [userInfo, setUserInfo] = useState(currentUser ? currentUser.daily_info : null);
     const [totalAvg, setTotalAvg] = useState(0);
+    const [setup, setSetup] = useState(true);
+
+    axios.get('api/users/632bf701cd4d0ef00f7796c2')
+        .then(result => {
+            setUserInfo(result.data.daily_info);
+        })
+        .catch(err => console.error(err));
+
+    const calculateAvg = (arr) => {
+        let output = 0;
+        for (let i = 0; i < arr.length; i++) {
+            output += arr.meditate_length;
+        }
+        output /= arr.length;
+        output /= 60;
+        return output;
+    }
+
+    if (setup) {
+        console.log('setting up!');
+        if (userInfo) {
+            console.log('setting up total average!');
+            setTotalAvg(calculateAvg(userInfo));
+        }
+        setSetup(false);
+    }
 
     return (
         <div id='MeditationChart'>
