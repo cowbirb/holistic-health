@@ -6,7 +6,7 @@ import axios from "axios";
 // as the actual value you want to access
 export const UserContext = createContext({
   currentUser: null,
-  setCurrentUser: () => {},
+  setCurrentUser: () => null,
 });
 
 // provider
@@ -22,8 +22,8 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated) {
       axios
-        .post("/api/user/googleAuth", { user })
-        .then(({ data }) => setCurrentUser(data))
+        .post("/api/user", { user })
+        .then(({config:{ data }}) => setCurrentUser(data))
         .catch((err) => console.log(err));
     }
   }, [isAuthenticated, user]);
