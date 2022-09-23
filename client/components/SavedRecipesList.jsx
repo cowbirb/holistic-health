@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 
 import axios from "axios";
 
-const SavedRecipesList = ({ calorieCount, setCalorieCount, user }) => {
+const SavedRecipesList = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
 
   console.log(recipes);
@@ -36,8 +36,6 @@ const SavedRecipesList = ({ calorieCount, setCalorieCount, user }) => {
               <SavedRecipe
                 savedRecipe={recipe}
                 key={index}
-                calorieCount={calorieCount}
-                setCalorieCount={setCalorieCount}
               />
             </Grid>
           ))}

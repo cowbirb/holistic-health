@@ -34,8 +34,8 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const SavedRecipe = ({ savedRecipe, calorieCount, setCalorieCount }) => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+const SavedRecipe = ({ savedRecipe }) => {
+  const { currentUser, setCurrentUser, setCalorieCount } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
 
   const handleDelete = async () => {
@@ -56,8 +56,8 @@ const SavedRecipe = ({ savedRecipe, calorieCount, setCalorieCount }) => {
     setExpanded(!expanded);
   };
 
-  const handleLogClick = (e) => {
-    setCalorieCount((calorieCount += Math.round(e.calories)));
+  const handleLogClick = () => {
+    setCalorieCount(Math.round(savedRecipe.calories));
   };
 
   return (
@@ -92,9 +92,7 @@ const SavedRecipe = ({ savedRecipe, calorieCount, setCalorieCount }) => {
         <Button
           variant="contained"
           size="small"
-          onClick={() => {
-            handleLogClick(savedRecipe);
-          }}
+          onClick={handleLogClick}
         >
           Log Recipe
         </Button>

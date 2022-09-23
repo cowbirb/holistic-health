@@ -35,7 +35,7 @@ function ProfileDetails({ user }) {
   const [userAge, setAge] = useState(0);
   const [userHeight, setHeight] = useState(0);
   const [userWeight, setWeight] = useState(0);
-  const [calorieCount, setCalorieCount] = useState(0);
+//   const [calorieCount, setCalorieCount] = useState(0);
 
   // handels setting state of Textfields
   const handleFieldChange = (event) => {
@@ -161,8 +161,6 @@ function ProfileDetails({ user }) {
           userAge={userAge}
           userHeight={userHeight}
           userWeight={userWeight}
-          calorieCount={calorieCount}
-          setCalorieCount={setCalorieCount}
         />
       </Box>
     </div>
