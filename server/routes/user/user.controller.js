@@ -1,32 +1,31 @@
 const { User } = require("../../models");
 
 const saveUser = async (req, res) => {
-  // add today's date to the user's daily_info array
+  //   if the user already exists, but does not have a daily_info object for the current date, create a new daily_info object for the current date
   const { user } = req.body;
   try {
-    const existingUser = await User.findOne({ email: user.email });
-    if (existingUser) {
-      // if the user already exists, add today's date to the daily_info array
-      // check if the date already exists in the daily_info array and if it does not match the current date, add it to the array
-      const today = existingUser.daily_info.find(
-        (info) => info.date === new Date(Date.now()).toDateString()
+    const userExists = await User.findOne({ email: user.email });
+    if (userExists) {
+      // check if the user has a daily_info object for today and if not, create one new Date(Date.now()).toDateString()
+      const today = new Date(Date.now()).toDateString();
+      const dailyInfoExists = userExists.daily_info.find(
+        (dailyInfo) => dailyInfo.date === today
       );
-      if (!today) {
-        existingUser.daily_info.push({
-          date: new Date(Date.now()).toDateString(),
-        });
-        await existingUser.save();
+      if (!dailyInfoExists) {
+        userExists.daily_info.push({ date: today });
+        await userExists.save();
       }
-      res.status(200).json(existingUser);
+      return res.status(200).json(userExists);
     } else {
       const newUser = await User.create({
         ...user,
-        daily_info: { date: new Date(Date.now()).toDateString() },
+        daily_info: [{ date: new Date(Date.now()).toDateString() }],
       });
-      res.json(newUser);
+      return res.status(200).json(newUser);
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    console.log("This is the error from saveUser:\n", err);
+    res.send(err).status(500);
   }
 };
 
@@ -44,7 +43,7 @@ const updateUser = async (req, res) => {
   const { user } = req.body;
   const { id } = req.params;
   try {
-    await User.findOneAndUpdate({ id }, user, { new: true });
+    await User.findOneAndUpdate({ _id: id }, user, { new: true });
     res.sendStatus(200);
   } catch (error) {
     res.status(500).json(error);
@@ -140,6 +139,27 @@ const getEmotion = async (req, res) => {
   }
 };
 
+const saveJournalEntry = async (req, res) => {
+    const { journalEntry } = req.body;
+    const { id } = req.params;
+    try {
+        const user = await User.findOne({ _id: id });
+        // find the daily_info object in the daily_info array that matches the current date
+        const today = user.daily_info.find(
+        (info) => info.date === new Date(Date.now()).toDateString()
+        );
+        // if the daily_info object exists, set the journal_entry property to the journalEntry that was sent from the client
+        if (today) {
+        today.journal_entries.push(journalEntry); 
+        await user.save();
+        res.sendStatus(201);
+        }
+    } catch (err) {
+        console.log("could not save journal entry", err);
+        res.sendStatus(500);
+    }
+};
+
 const updateMeditate = async (req, res) => {
   const { id } = req.params;
   const { meditateLength } = req.body;
@@ -168,6 +188,7 @@ module.exports = {
   deleteRecipe,
   saveEmotion,
   getEmotion,
+  saveJournalEntry,
   updateUser,
   updateMeditate,
 };
