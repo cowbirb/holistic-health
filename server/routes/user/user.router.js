@@ -7,6 +7,7 @@ const {
   getRecipes,
   saveEmotion,
   getEmotion,
+  saveJournalEntry,
   deleteRecipe,
   updateMeditate,
 } = require("./user.controller");
@@ -18,6 +19,8 @@ userRouter.post("/googleAuth", saveUser);
 userRouter.put("/:id", updateUser);
 
 userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
+
+userRouter.route("/:id/journal").post(saveJournalEntry);
 
 userRouter
   .route("/myrecipes/:id")
