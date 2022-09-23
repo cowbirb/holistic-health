@@ -9,6 +9,11 @@ const ExcerciseChart = () => {
     const { currentUser } = useContext(UserContext);
     const [userInfo, setUserInfo] = useState(currentUser ? currentUser.daily_info : null);
     const [totalAvg, setTotalAvg] = useState(0);
+    const [veryHappyAvg, setVeryHappy] = useState(0);
+    const [happyAvg, setHappy] = useState(0);
+    const [neutralAvg, setNeutral] = useState(0);
+    const [angryAvg, setAngry] = useState(0);
+    const [veryAngryAvg, setVeryAngry] = useState(0);
     const [setup, setSetup] = useState(true);
 
     const calculateAvg = (arr) => {
@@ -21,9 +26,25 @@ const ExcerciseChart = () => {
         return output;
     }
 
+    const filterEntries = (str) => {
+        const output = userInfo.filter((curr, i, collection) => {
+            if (curr.emotion_of_the_day.did_respond) {
+                return curr.emotion_of_the_day.emotion === str;
+            } else {
+                return false;
+            }
+        });
+        return output;
+    }
+
     if (setup) {
         if (userInfo) {
             setTotalAvg(calculateAvg(userInfo));
+            setVeryHappy(calculateAvg(filterEntries('Very Happy')));
+            setHappy(calculateAvg(filterEntries('Happy')));
+            setNeutral(calculateAvg(filterEntries('Neutral')));
+            setAngry(calculateAvg(filterEntries('Angry')));
+            setVeryAngry(calculateAvg(filterEntries('Very Angry')));
         }
         setSetup(false);
     }
@@ -60,7 +81,7 @@ const ExcerciseChart = () => {
                         {
                             type: 'bar',
                             backgroundColor: ['darkmagenta', 'darkviolet', 'darkorchid', 'mediumorchid', 'orchid', 'plum'],
-                            data: [totalAvg, 1, 2, 3, 4, 5],
+                            data: [totalAvg, veryHappyAvg, happyAvg, neutralAvg, angryAvg, veryAngryAvg],
                             borderColor: ['darkmagenta', 'darkviolet', 'darkorchid', 'mediumorchid', 'orchid', 'plum'],
                             borderWidth: 2,
                         },
