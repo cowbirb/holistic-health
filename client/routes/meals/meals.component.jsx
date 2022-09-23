@@ -13,8 +13,8 @@ const Meals = () => {
     <>
       <div><h1>Meals</h1></div>
         <ProfileDetails user={currentUser} />
-        <Search />
         <SavedRecipesList user={currentUser}/>
+        <Search />
     </>
   );
 };
