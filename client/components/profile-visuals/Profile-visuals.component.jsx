@@ -19,7 +19,7 @@ const ProfileVisual = () => {
                 <select value={graphView} onChange={selectHandler}>
                     <option value='entries'>Entries</option>
                     <option value='meditation'>Meditation</option>
-                    <option value='excercise'>Excercise</option>
+                    <option value='excercise'>Exercise</option>
                 </select>
             </div>
             {graphView === 'entries' ? <PieChart></PieChart> : graphView === 'meditation' ? <MeditationChart></MeditationChart> : graphView === 'excercise' ? <ExcerciseChart></ExcerciseChart> : <div style={{display: 'flex', justifyContent: 'center', color: 'crimson'}}><b><u>You Shouldn't Be Seeing This</u></b></div>}

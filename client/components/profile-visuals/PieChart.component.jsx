@@ -17,7 +17,7 @@ const PieChart = () => {
 
     const filterEntries = (str) => {
         const output = userInfo.filter((curr, i, collection) => {
-            if (curr['emotion_of_the_day'].did_respond) {
+            if (curr.emotion_of_the_day.did_respond) {
                 return curr.emotion_of_the_day.emotion === str;
             } else {
                 return false;
