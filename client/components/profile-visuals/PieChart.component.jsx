@@ -31,7 +31,7 @@ const PieChart = () => {
         setHappy(filterEntries('Happy').length);
         setNeutral(filterEntries('Neutral').length);
         setAngry(filterEntries('Angry').length);
-        setVeryAngry(filterEntries('Very Angry'));
+        setVeryAngry(filterEntries('Very Angry').length);
         setSetup(false);
     }
 
