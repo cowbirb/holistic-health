@@ -8,87 +8,46 @@ import CalorieCalc from "./CalorieCalc.jsx";
 
 
 //Textfield select
-const sexes = [
-  {
-    value: "male",
-    label: "M",
-  },
-  {
-    value: "female",
-    label: "F",
-  },
-];
+const sexes = [{value:"male",label:"M"},{value:"female",label:"F"}];
 
-function ProfileDetails({ user }) {
+function ProfileDetails({ currentUser }) {
 
   //Material-ui: Textfield props
-  const inputProps = {
-    type: "number",
-  };
+  const inputProps = {type: "number"};
 
-  const labelProps = {
-    shrink: true,
-  };
+  const labelProps = {shrink: true};
 
   //React Hooks and functions
-  const [userSex, setSex] = useState(sexes[0].value);
-  const [userAge, setAge] = useState(0);
-  const [userHeight, setHeight] = useState(0);
-  const [userWeight, setWeight] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    sex: sexes[0].value,
+    age: '',
+    height: '',
+    weight: '',
+  })
+
   const [calorieCount, setCalorieCount] = useState(0);
 
-  // handels setting state of Textfields
+  // handles setting state of Textfields
   const handleFieldChange = (event) => {
     const { value, name } = event.target;
-
-    // determine which setState needs to be called
-    switch (name) {
-      case "Age":
-        setAge(value);
-        break;
-      case "Weight":
-        setWeight(value);
-        break;
-      case "Height":
-        setHeight(value);
-        break;
-      case "Sex":
-        setSex(value);
-        break;
-    }
+    setUserInfo(userInfo => ({...userInfo, 
+    [name]: value,
+    }));
   };
 
-  const handleUpdateOnClick = async () => {
-    try{
-      await axios.put(`/api/user/${user._id}`, {
+  const handleUpdateOnClick = () => {
+    const {age, height, weight, sex} = userInfo;
+      axios.put(`/api/user/${currentUser._id}`, {
         user: {
-          age: userAge,
-          height: userHeight,
-          weight: userWeight,
-          sex: userSex,
+          age,
+          height,
+          weight,
+          sex,
         },
-      });
-    } catch(err){
-      console.log(err)
-    }
+      })
+      .catch(err => console.log('put req unsuccessful', err));
   };
 
-  
-  //run immediately after rendering
-  useEffect(() => {
-    if(user.age){
-      setAge(user.age);
-    }
-    if(user.height){
-      setHeight(user.height);
-    }
-    if(user.weight){
-      setWeight(user.weight);
-    }
-    if(user.sex){
-      setSex(user.sex);
-    }
-  }, []);
 
   return (
     <div>
@@ -101,9 +60,9 @@ function ProfileDetails({ user }) {
 
         <TextField
           id="Agefield"
-          name="Age"
+          name="age"
           label="Age"
-          value={userAge}
+          value={userInfo.age}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -111,9 +70,9 @@ function ProfileDetails({ user }) {
 
         <TextField
           id="Heightfield"
-          name="Height"
+          name="height"
           label="Height"
-          value={userHeight}
+          value={userInfo.height}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -121,9 +80,9 @@ function ProfileDetails({ user }) {
 
         <TextField
           id="Weightfield"
-          name="Weight"
+          name="weight"
           label="Weight"
-          value={userWeight}
+          value={userInfo.weight}
           onChange={handleFieldChange}
           InputLabelProps={labelProps}
           inputProps={inputProps}
@@ -131,7 +90,7 @@ function ProfileDetails({ user }) {
 
         <TextField
           id="select-Sex"
-          name="Sex"
+          name="sex"
           select
           label="Sex"
           InputLabelProps={labelProps}
@@ -150,9 +109,7 @@ function ProfileDetails({ user }) {
         <Button
           text="Update"
           variant="outlined"
-          onClick={() => {
-            handleUpdateOnClick(user);
-          }}
+          onClick={handleUpdateOnClick}
         >
           Update
         </Button>
@@ -164,12 +121,6 @@ function ProfileDetails({ user }) {
           calorieCount={calorieCount}
           setCalorieCount={setCalorieCount}
         />
-      </Box>
-      <Box>
-        <Meals />
-      </Box>
-      <Box>
-       <Exercise user={user} />
       </Box>
     </div>
   );
