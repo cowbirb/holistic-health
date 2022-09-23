@@ -1,14 +1,10 @@
-import React, {useState,useEffect, useContext} from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../context/user.context.jsx";
 
-import CalorieCalc from "../../components/CalorieCalc.jsx";
 import ProfileDetails from "../../components/Profile-details.jsx";
-
 import SavedRecipesList from "../../components/SavedRecipesList.jsx";
 import Search from "../../components/Search.jsx";
 
-import axios from "axios";
-
-import { UserContext } from "../../context/user.context.jsx";
 
 const Meals = () => {
   const {currentUser} = useContext(UserContext);
