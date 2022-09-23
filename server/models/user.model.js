@@ -29,10 +29,9 @@ const userSchema = new Schema({
       journal_entries: [
         {
           title: String,
-          body: String,
-          user_email: String,
-          createdAt: String,
-          images: String,
+          content: String,
+          image: String,
+          image_type: String,
         },
       ],
       foods: [
