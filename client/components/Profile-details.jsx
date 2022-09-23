@@ -149,9 +149,7 @@ function ProfileDetails({ user }) {
         <Button
           text="Update"
           variant="outlined"
-          onClick={() => {
-            handleUpdateOnClick(user);
-          }}
+          onClick={handleUpdateOnClick}
         >
           Update
         </Button>
