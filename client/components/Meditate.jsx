@@ -8,7 +8,7 @@ import updateMeditateProps from '../services/meditate/meditate-services.js';
 
 const Meditate = () => {  
   const { currentUser } = useContext(UserContext);
-  console.log('currentUser:', currentUser)
+  // console.log('currentUser:', currentUser)
   // initialize timer start value using useState
   const [userNum, setUserNum] = useState(currentUser && currentUser.default_timer || 600);
   // initialize a pause state value set to true
@@ -98,38 +98,29 @@ const startTimer = () => {
     if (!isTimeUp) {
       // if the timer is running
       if (isTimerRunning) {
-        return (
-          <div>
-
-            <p><i>breathe in...</i></p>
-            <h3>
-            {currentMantra[0] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe out...</i></p>
-            <h3>
-            {currentMantra[1] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe in...</i></p>
-            <h3>
-            {currentMantra[2] || currentMantra[0] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe out...</i></p>
-            <h3>
-            {currentMantra[3] || currentMantra[1] || []}
-            </h3>
-          </div>
-        );
+          return !currentMantra.length ? 
+              (
+              <>
+              <p><i>breathe in...</i></p>
+              <br></br>
+              <p><i>breathe out...</i></p>
+              <br></br>
+              </>
+              ) : currentMantra.map((line, i) => {
+                  console.log('this is line:\n', line)
+                  return (
+                  <div key={line + i}>
+                  <p><i>{i % 2 === 0 ? 'breathe in...' : 'breathe out...'}</i></p>
+                  <h3>
+                  {line}
+                  </h3>
+                  <br></br>
+                  </div>
+                  )}
+              )
       } else {
         return <h2>{secondsView === '00' ? `${minutes} minutes` : `${minutes} minutes ${secondsView} seconds`}</h2>;
-
       }
-
     } else {
       return <h2>Thank you.</h2>;
     }
