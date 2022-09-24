@@ -8,9 +8,7 @@ import Search from "../../components/Search.jsx";
 
 const Meals = () => {
   const {currentUser} = useContext(UserContext);
-  
 
-  console.log('meals: ', currentUser);
   return (
     <>
       <div><h1>Meals</h1></div>
