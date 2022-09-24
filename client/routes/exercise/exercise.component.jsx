@@ -26,7 +26,6 @@ const Exercise = () => {
     const selectedWorkout = saved_workouts.filter(workout => {
       return workout._id === _id;
     });
-    console.log(selectedWorkout);
     axios.put(`/api/user/exercise/${email}`, {
       user: {$pull: {saved_workouts: selectedWorkout[0]}}
     })
