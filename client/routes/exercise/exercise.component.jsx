@@ -52,11 +52,10 @@ const Exercise = () => {
   };
 
   const updateUser = async () => {
-    const {_id} = currentUser;
+    const {email} = currentUser;
     try{
-      const data = await axios.get('/:id', {_id});
-      console.log('--->', data);
-      // setCurrentUser(data);
+      const {data} = await axios.get(`/api/user/exercise/${email}`);
+      setCurrentUser(data);
     } catch (err) {
       console.log('update user unsuccessful', err);
     }
@@ -64,9 +63,8 @@ const Exercise = () => {
 
   if (!currentUser) {
     return <h1>Please login</h1>;
-  } else {
+  } else if (currentUser.saved_workouts) {
     const { saved_workouts, daily_info } = currentUser;
-    // console.log(saved_workouts.sort((a, b) => ));
  
     return (
       <>
