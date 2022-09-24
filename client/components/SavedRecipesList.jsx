@@ -8,8 +8,6 @@ import axios from "axios";
 const SavedRecipesList = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
 
-  console.log(recipes);
-
   useEffect(() => {
     axios
       .get(`/api/user/myrecipes/${user._id}`)
