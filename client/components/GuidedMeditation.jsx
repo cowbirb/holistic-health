@@ -1,21 +1,18 @@
 import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 //import { process } from 'dotenv'
-import VideoListEntry from './VideoListEntry.jsx';
+import GuidedVideoEntry from './GuidedVideoEntry.jsx';
+import CurrentGuidedVideo from './CurrentGuidedVideo.jsx';
 
 const GuidedMeditation = () => {
   // create states
   const videoIndexStart = useRef();
   const [videos, setVideos] = useState([]);
   const [currentVideoList, setCurrentVideoList] = useState([]);
-  const [currentVideo, setCurrentVideo] = useState(videos[0]);
-  // const [axiosObject, setAxiosObject] = useState({});
-  // const [videoContents, setVideoContents] = useState([]);
-  // const [videoIds, setVideoIds] = useState([]);
-  // const [currentVideoList, setCurrentVideoList] = useState([]);
-  // const [nextPageToken, setNextPageToken] = useState('');
+  const [currentVideo, setCurrentVideo] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState()
+  const [isLoading, setIsLoading] = useState(true);
 
-  // retrieve videos
   // setAxiosObject({
   const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
   // });
@@ -35,46 +32,28 @@ const GuidedMeditation = () => {
   };
 
   useEffect(() => {
-    // setAxiosObject({
-    //   params: {
-    //     key: YOUTUBE_API_KEY,
-    //     q: 'guided+meditation',
-    //     part: 'snippet',
-    //     maxResults: '50',
-    //   }
-    // });
-    // let's see if an async iife will work here
     videoIndexStart.current = 0;
     ( async () => {
       try {
         await getVideos();
-        setCurrentVideo(videos[0]);
-        console.log('HELLOO? currentVideo?', currentVideo);
+        setCurrentVideo(currentVideoList[0]);
+        // console.log('HELLOO? currentVideo?', currentVideo);
       } catch (err) {
         console.error('Son, you got an error in your IIFE:\n', err);
+        setError(err)
       }
     })();
-    // console.log('videoIndexStart.current', videoIndexStart.current);
-    // (async () => {
-    //   try {
-    //     await getVideos();
-    //     videoIndexStart.current = 0;
-    //     setCurrentVideoList(videos.slice(videoIndexStart.current));
-    //     console.log('The current VideoList:', currentVideoList);
-    //   } catch (err) {
-    //     console.error('Son, you got an error in your IIFE:\n', err);
-    //   }
-    // })();
   }, []);
 
   useEffect(() => {
     setCurrentVideoList(videos.slice(videoIndexStart.current, videoIndexStart.current + 5));
     setCurrentVideo(currentVideoList[0]);
+    setIsLoading(false);
   }, [videos, videoIndexStart])
   
   useEffect(() => {
     setCurrentVideo(currentVideoList[0])
-  }, [currentVideoList ])
+  }, [currentVideoList])
 
   const getVideos = async () => {
     try {
@@ -90,41 +69,25 @@ const GuidedMeditation = () => {
       }
       const { data: secondRequest } = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, videoIdRequestObject)
       const completeVidInfo = firstRequest.items.map((video, i) => {
-        video.duration = secondRequest.items[i].contentDetails.duration;
+        let unformattedTime = secondRequest.items[i].contentDetails.duration;
+        // video.duration = secondRequest.items[i].contentDetails.duration;
+        video.duration = unformattedTime.replace("PT","").replace("H",":").replace("M"," minutes ").replace("S"," seconds");
         return video;
       });
       setVideos(completeVidInfo);
       setCurrentVideoList(videos.slice(videoIndexStart.current, videoIndexStart.current + 5));
       setCurrentVideo(videos[0]);
-      console.log('the videos, right?', videos);
-      console.log('The current VideoList:', currentVideoList);
-      console.log('Please cmon the currentVideo:', currentVideo);
-      // console.log('secondGet:', secondGet);
     } catch (err) {
       console.error('The error from getVideos catch:\n', err);
     }
-    setCurrentVideo(videos[0]);
-    console.log('The current video:', currentVideo);
   }
-
-
-  console.log('these are the videos', videos);
-
-  //setCurrentVideoList(videos.slice(videoIndexStart.current, videoIndexStart.current + 5));
-  console.log('heres that slice thing:', videos.slice(videoIndexStart.current, videoIndexStart.current + 5));
-  console.log('this is the currentVideo:', currentVideo);
-  console.log('THIS is the currentVideoList:', currentVideoList);
-
-  return (
-    <>
-    {/* // map through videos array and render each one in a list entry
-    // {videos.map(video => <h1>{video.title}</h1>)}
-    // console.log('we got returned'); */}
+  return isLoading || !currentVideo ? <h2>Enjoy this moment</h2> : (
+      <>
     <h1>Guided Meditation</h1>
-    {videos.slice(videoIndexStart.current, videoIndexStart.current + 5).map(video => <div key={video.id.videoId}><VideoListEntry /></div>)}
+    <CurrentGuidedVideo video={currentVideo} />
+    {currentVideoList.map((video, i) => <GuidedVideoEntry video={video} key={video.id.videoId} />)}
     </>
-  );
-
+    );
 };
 
 export default GuidedMeditation;
