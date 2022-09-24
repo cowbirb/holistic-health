@@ -11,19 +11,7 @@ import {
   CardContent,
   CardHeader,
   Button,
-  TextField,  
 } from '@mui/material';
-
-// import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import Button from "@mui/material/Button";
-// import TextField from "@mui/material/TextField";
-// import Dialog from "@mui/material/Dialog";
-// import DialogActions from "@mui/material/DialogActions";
-// import DialogContent from "@mui/material/DialogContent";
-// import DialogTitle from "@mui/material/DialogTitle";
-// import Typography from "@mui/material/Typography";
 
 const MeditateTimer = ({handleViewChange}) => {  
   const { currentUser } = useContext(UserContext);
@@ -62,7 +50,6 @@ const resetTimer = () => {
   stopTimer();
   setIsTimerRunning(false);
   if (timerVal) {
-    //renders.current++;
     setTimerVal(userNum);
   }
 };

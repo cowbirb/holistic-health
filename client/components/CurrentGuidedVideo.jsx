@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CurrentGuidedVideo = ({video}) => {
-  //console.log('the video in the currentGuidedVid comp:', video);
 
 const encodedTitle = video.snippet.title;
 const parser = new DOMParser;
@@ -12,7 +11,6 @@ var decodedTitle = dom.body.textContent;
 
   return (
   <div>
-
     <div>
       <iframe src={ `https://www.youtube.com/embed/${video.id.videoId}` } allowFullScreen></iframe>
     </div>

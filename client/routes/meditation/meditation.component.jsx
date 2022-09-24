@@ -30,10 +30,6 @@ const Meditation = () => {
         }}
       >
       {view === 'Meditation Timer' ? <MeditateTimer handleViewChange={handleViewChange} /> : <GuidedMeditation handleViewChange={handleViewChange} />}
-      {/* <Button onClick={handleViewChange}
-      >
-        {view === 'Meditation Timer' ? 'Guided Meditation' : 'Meditation Timer'}
-      </Button> */}
       </Box>
     </>
   );
