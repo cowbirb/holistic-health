@@ -40,7 +40,7 @@ const Exercise = () => {
 
   const createWorkout = () => {
    if (newWorkout.workout) {
-     axios.put(`/api/user/${currentUser._id}`, {users: {$push: {saved_workouts: newWorkout}}})
+     axios.put(`/api/user/exercise/${currentUser.email}`, {users: {$push: {saved_workouts: newWorkout}}})
      .then(() => setNewWorkout({
        workout: '',
        set: '',
