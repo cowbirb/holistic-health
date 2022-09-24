@@ -8,17 +8,19 @@ import Search from "../../components/Search.jsx";
 
 import axios from "axios";
 
-import { UserContext } from "../../context/user.context.jsx";
+import { UserContext  } from "../../context/user.context";
 
 const Meals = () => {
   const {currentUser} = useContext(UserContext);
+  
 
+  console.log('meals: ', currentUser);
   return (
     <>
       <div><h1>Meals</h1></div>
-        <ProfileDetails user={currentUser} />
+        <ProfileDetails  currentUser={currentUser} />
         <Search />
-        <SavedRecipesList user={currentUser}/>
+        <SavedRecipesList />
     </>
   );
 };
