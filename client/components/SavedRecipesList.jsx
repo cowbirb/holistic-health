@@ -9,7 +9,7 @@ const SavedRecipesList = ({ calorieCount, setCalorieCount, user }) => {
 
   const [recipes, setRecipes] = useState([]);
 
-  console.log(recipes);
+
 
   useEffect(() => {
     axios
