@@ -1,6 +1,6 @@
-import axios from 'axios';
-import React, { useState, useEffect, useContext } from 'react';
-import {UserContext} from '../../context/user.context.jsx';
+import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/user.context.jsx";
 import {
   Button,
   Dialog,
@@ -11,23 +11,22 @@ import {
   TextField,
   Rating,
   styled,
-} from '@mui/material';
+} from "@mui/material";
 
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 
 const EmotionModal = () => {
-  const [open, setOpen] = useState(true);
-  const [show, setShow] = useState(true);
-  const [emotion, setEmotion] = useState('Neutral');
-  const [journalEntry, setJournalEntry] = useState('');
+  const [open, setOpen] = useState(false);
+  const [emotion, setEmotion] = useState("Neutral");
+  const [journalEntry, setJournalEntry] = useState("");
   const { currentUser, isAuthenticated } = useContext(UserContext);
 
   const StyledRating = styled(Rating)(({ theme }) => ({
-    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
+    "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
       color: theme.palette.action.disabled,
     },
   }));
@@ -35,34 +34,29 @@ const EmotionModal = () => {
   const Icons = {
     1: {
       icon: <SentimentVeryDissatisfiedIcon color="error" />,
-      label: 'Very Angry',
+      label: "Very Angry",
     },
     2: {
       icon: <SentimentDissatisfiedIcon color="error" />,
-      label: 'Angry',
+      label: "Angry",
     },
     3: {
       icon: <SentimentSatisfiedIcon color="warning" />,
-      label: 'Neutral',
+      label: "Neutral",
     },
     4: {
       icon: <SentimentSatisfiedAltIcon color="success" />,
-      label: 'Happy',
+      label: "Happy",
     },
     5: {
       icon: <SentimentVerySatisfiedIcon color="success" />,
-      label: 'Very Happy',
+      label: "Very Happy",
     },
   };
 
   const IconContainer = (props) => {
     const { value, ...other } = props;
     return <span {...other}>{Icons[value].icon}</span>;
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setShow(false);
   };
 
   const handleEmotionChange = (event) => {
@@ -73,48 +67,62 @@ const EmotionModal = () => {
     setJournalEntry(event.target.value);
   };
 
+  const handleDismiss = async (e) => {
+    setOpen(false);
+    e.preventDefault();
+    try {
+      await axios.post(`/api/user/${currentUser._id}/emotionOfTheDay`, {
+        emotion: {
+          did_dismiss: true,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log("dismissed-open ", open);
+  };
+
   const handleSubmit = async (event) => {
+    setOpen(false);
     event.preventDefault();
     try {
       await axios.post(`/api/user/${currentUser._id}/emotionOfTheDay`, {
         emotion: {
           emotion: emotion,
           emotion_summary: journalEntry,
+          did_respond: true,
         },
       });
     } catch (err) {
       console.log(err);
     }
-    handleClose();
   };
 
-  // check if user is authenticatd and if show is true to open modal
   useEffect(() => {
-    if (isAuthenticated && show) {
-      setOpen(true);
+    if (isAuthenticated && currentUser) {
+      const checkIfDismissed = async () => {
+        try {
+          const { data } = await axios.get(
+            `/api/user/${currentUser._id}/emotionOfTheDay`
+          );
+          if (data.did_dismiss === true || data.did_respond === true) {
+            setOpen(false);
+          } else {
+            setOpen(true);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      checkIfDismissed();
     }
-  }, [isAuthenticated, show]);
-
-  //set show to false if user closes modal and clear the local storage after 24 hours to show modal again
-  useEffect(() => {
-    if (show === false) {
-      localStorage.setItem('show', false);
-      setTimeout(() => {
-        localStorage.clear();
-      }, 86400000);
-    }
-  }, [show]);
-
-  useEffect(() => {
-    if (localStorage.getItem('show') === 'false') {
-      setShow(false);
-    }
-  }, []);
+  }, [isAuthenticated, currentUser]);
 
   return (
     <>
-      {show && isAuthenticated ? (
-        <Dialog open={open} onClose={handleClose}>
+      {open && isAuthenticated ? (
+        <Dialog open={open}>
           <DialogTitle>How are you feeling today?</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -123,15 +131,15 @@ const EmotionModal = () => {
             <StyledRating
               name="highlight-selected-only"
               defaultValue={
-                emotion === 'Very Angry'
+                emotion === "Very Angry"
                   ? 1
-                  : emotion === 'Angry'
-                    ? 2
-                    : emotion === 'Neutral'
-                      ? 3
-                      : emotion === 'Happy'
-                        ? 4
-                        : 5
+                  : emotion === "Angry"
+                  ? 2
+                  : emotion === "Neutral"
+                  ? 3
+                  : emotion === "Happy"
+                  ? 4
+                  : 5
               }
               getLabelText={(value) => Icons[value].label}
               IconContainerComponent={IconContainer}
@@ -153,7 +161,7 @@ const EmotionModal = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Dismiss</Button>
+            <Button onClick={handleDismiss}>Dismiss</Button>
             <Button type="submit" onClick={handleSubmit}>
               Submit
             </Button>

@@ -1,22 +1,33 @@
-const express = require('express');
+const express = require("express");
 
-const { saveUser, updateUser, saveRecipe, getRecipes, saveEmotion, deleteRecipe, updateMeditate, } = require('./user.controller');
+const {
+  saveUser,
+  updateUser,
+  saveRecipe,
+  getRecipes,
+  saveEmotion,
+  getEmotion,
+  saveJournalEntry,
+  deleteRecipe,
+  updateMeditate,
+} = require("./user.controller");
 
 const userRouter = express.Router();
 
-userRouter.put('/:id', updateUser);
+userRouter.post("/googleAuth", saveUser);
 
-userRouter.post("/:id/emotionOfTheDay", saveEmotion);
+userRouter.put("/:id", updateUser);
 
-userRouter.post('/googleAuth', saveUser);
+userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
 
-userRouter.get('/myrecipes/:email', getRecipes);
-userRouter.delete('/myrecipes/:id', deleteRecipe);
+userRouter.route("/:id/journal").post(saveJournalEntry);
 
-userRouter.post('/myrecipes/:id', saveRecipe);
+userRouter
+  .route("/myrecipes/:id")
+  .get(getRecipes)
+  .post(saveRecipe)
+  .delete(deleteRecipe);
 
-userRouter.put('/meditate/:id', updateMeditate);
-
-
+userRouter.put("/meditate/:id", updateMeditate);
 
 module.exports = userRouter;

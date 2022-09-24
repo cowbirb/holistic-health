@@ -14,7 +14,7 @@ const Profile = () => {
       <div id="profileInfo" style={{color: 'blue'}}>
         <h1>Profile</h1>
         <div id="profileImage" style={{display: 'inline-block', verticalAlign: 'top', marginLeft: '5px'}}>
-          { currentUser ? (currentUser.name === 'Quixotic Destiny' ? <img width='75' height='100' src={ baron }></img> : (currentUser.name === 'Adonis Suriel' ? <img width='100' height='100' src={sample3}></img> : ( currentUser.name === 'Eric Kuehnemann' ? <img width='100' height='100' src={sample2}></img> : (currentUser.name === 'Federico Jimenez' ? <img width='200' height='100' src={sample1}></img> : <img width='100' height='100' src={currentUser.picture}></img>)))) : <img width='75' height='100' src={ baron }></img> }
+          { currentUser ? (currentUser.name === 'Quixotic destiny' ? <img width='75' height='100' src={ baron }></img> : (currentUser.name === 'Adonis Suriel' ? <img width='100' height='100' src={sample3}></img> : ( currentUser.name === 'Eric Kuehnemann' ? <img width='100' height='100' src={sample2}></img> : (currentUser.name === 'Federico Jimenez' ? <img width='200' height='100' src={sample1}></img> : <img width='100' height='100' src={currentUser.picture}></img>)))) : <img width='75' height='100' src={ baron }></img> }
         </div>
         <div id="profileText" style={{display: 'inline-block', marginLeft: '10px'}}>
           <p>{currentUser ? currentUser.name : 'ERROR'}</p>
