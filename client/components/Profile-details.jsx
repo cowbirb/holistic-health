@@ -18,14 +18,11 @@ function ProfileDetails({ currentUser }) {
   const labelProps = {shrink: true};
 
   //React Hooks and functions
-  const [userInfo, setUserInfo] = useState({
-    sex: sexes[0].value,
-    age: '',
-    height: '',
-    weight: '',
-  })
-
-  const [calorieCount, setCalorieCount] = useState(0);
+  const [userSex, setSex] = useState(sexes[0].value);
+  const [userAge, setAge] = useState(0);
+  const [userHeight, setHeight] = useState(0);
+  const [userWeight, setWeight] = useState(0);
+//   const [calorieCount, setCalorieCount] = useState(0);
 
   // handles setting state of Textfields
   const handleFieldChange = (event) => {
@@ -117,9 +114,10 @@ function ProfileDetails({ currentUser }) {
       <br />
       <Box>
         <CalorieCalc
-          userInfo={userInfo}
-          calorieCount={calorieCount}
-          setCalorieCount={setCalorieCount}
+          userSex={userSex}
+          userAge={userAge}
+          userHeight={userHeight}
+          userWeight={userWeight}
         />
       </Box>
     </div>

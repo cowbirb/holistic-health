@@ -7,14 +7,25 @@ import axios from "axios";
 export const UserContext = createContext({
   currentUser: null,
   setCurrentUser: () => null,
+  calorieCount: 0,
+  setCalorieCount: () => 0,
 });
 
 // provider
 // eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const [currentUser, setCurrentUser] = useState({});
-  const value = { currentUser, setCurrentUser, isAuthenticated, loginWithRedirect, logout };
+  const [currentUser, setCurrentUser] = useState(null);
+  const [calorieCount, setCalorieCount] = useState(0);
+  const value = {
+    calorieCount,
+    setCalorieCount,
+    currentUser,
+    setCurrentUser,
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+  };
 
   // immediately after the user logs in, we want to set the currentUser to the user object
   // and then we want to make a request to our backend to create a user document in the database

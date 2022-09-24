@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../context/user.context.jsx';
+
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,10 +10,9 @@ const CalorieCalc = ({
   userAge,
   userHeight,
   userWeight,
-  calorieCount,
-  setCalorieCount,
 }) => {
   const [calCnt, setCalCnt] = useState(0);
+  const { calorieCount, setCalorieCount } = useContext(UserContext);
 
   const getCalCnt = () => {
     if (userSex === 'female') {
