@@ -3,7 +3,6 @@ const { User } = require("../../models");
 const saveUser = async (req, res) => {
   //   if the user already exists, but does not have a daily_info object for the current date, create a new daily_info object for the current date
   const { user } = req.body;
-  console.log(req);
   try {
     const userExists = await User.findOne({ email: user.email });
     if (userExists) {
