@@ -25,15 +25,13 @@ const Exercise = () => {
 
   const createWorkout = () => {
     console.log('currentUser: ', currentUser);
-   if (newWorkout.workout) {
-     axios.put(`/api/user/exercise/${currentUser.email}`, {users: {$push: {saved_workouts: newWorkout}}})
+     axios.put(`/api/user/exercise/${currentUser.email}`, {user: {$push: {saved_workouts: newWorkout}}})
      .then(() => setNewWorkout({
        workout: '',
        set: '',
        reps: '',
      }))
      .catch(err => console.log('workout update unsuccessful', err));
-   }
   };
 
   
