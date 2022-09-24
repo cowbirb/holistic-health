@@ -10,6 +10,7 @@ const {
   saveJournalEntry,
   deleteRecipe,
   updateMeditate,
+  createWorkout,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -21,6 +22,8 @@ userRouter.put("/:id", updateUser);
 userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
 
 userRouter.route("/:id/journal").post(saveJournalEntry);
+
+userRouter.route("/exercise/:email", createWorkout);
 
 userRouter
   .route("/myrecipes/:id")
