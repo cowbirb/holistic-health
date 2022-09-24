@@ -9,6 +9,8 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
   calorieCount: 0,
   setCalorieCount: () => 0,
+  journals: [],
+    setJournals: () => null,
 });
 
 // provider
@@ -17,7 +19,10 @@ export const UserProvider = ({ children }) => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [currentUser, setCurrentUser] = useState(null);
   const [calorieCount, setCalorieCount] = useState(0);
+    const [journals, setJournals] = useState([]);
   const value = {
+    journals,
+    setJournals,
     calorieCount,
     setCalorieCount,
     currentUser,
