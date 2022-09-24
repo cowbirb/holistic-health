@@ -3,6 +3,24 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import {UserContext} from '../../context/user.context';
+import Exercises from '../../components/Exercise'
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import {
+  styled,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  IconButton,
+  Typography,
+  Button,
+  List,
+  ListItem,
+} from "@mui/material";
 
 const Exercise = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
@@ -20,7 +38,7 @@ const Exercise = () => {
     }));
   }
 
-  const updateWorkout = () => {
+  const createWorkout = () => {
    if (newWorkout.workout) {
      axios.put(`/api/user/${currentUser._id}`, {users: {$push: {saved_workouts: newWorkout}}})
      .then(() => setNewWorkout({
@@ -31,9 +49,10 @@ const Exercise = () => {
      .catch(err => console.log('workout update unsuccessful', err));
    }
   };
-  
+
   return (
-    <Box>
+    <>
+    <Box >
       <TextField
         placeholder='name of exercise'
         type='text'
@@ -47,20 +66,37 @@ const Exercise = () => {
         name='set'
         value={newWorkout.set}
         onChange={workoutChange}
-      >Number of Sets</TextField>
+        >Number of Sets</TextField>
       <TextField
         placeholder='number of reps'
         type='text'
         name='reps'
         value={newWorkout.reps}
         onChange={workoutChange}
-      >Number of Reps</TextField>
+        >Number of Reps</TextField>
       <button
         type='submit'
-        onClick={updateWorkout}
-      >Update Workout</button>
-      {/* {currentUser.map(user => (<div>{user.exercises}</div>))} */}
+        onClick={createWorkout}
+        >Update Workout</button>
     </Box>
+    <Card sx={{ maxWidth: 345, boxShadow: 7 }}>
+       <FitnessCenterIcon>
+
+
+    <Container>
+      <Grid
+        style={{display: 'flex', justifyContent: 'center'}}
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+      </Grid>
+    </Container>
+
+       </FitnessCenterIcon>
+   
+    </Card>
+  </>
   )
 }
 
