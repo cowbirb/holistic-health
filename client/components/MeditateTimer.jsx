@@ -9,6 +9,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CardHeader,
   Button,
   TextField,  
 } from '@mui/material';
@@ -24,7 +25,7 @@ import {
 // import DialogTitle from "@mui/material/DialogTitle";
 // import Typography from "@mui/material/Typography";
 
-const MeditateTimer = () => {  
+const MeditateTimer = ({handleViewChange}) => {  
   const { currentUser } = useContext(UserContext);
   // initialize timer start value using useState
   const [userNum, setUserNum] = useState(currentUser && currentUser.default_timer || 600);
@@ -144,8 +145,12 @@ const startTimer = () => {
     <>
     <Card>
       <CardContent>
-
-      <h1>Meditate</h1>
+      {/* <CardHeader> */}
+        <Button onClick={handleViewChange} size={'small'}>
+          Switch to Guided Meditation
+        </Button>
+        <h1>Meditation Timer</h1>
+      {/* </CardHeader> */}
       <br></br>
       <br></br>
       <RenderView />
@@ -165,8 +170,8 @@ const startTimer = () => {
         />
       <CardActions>
         <section>
-          { pause ? <button onClick={startTimer}>Start</button> : <button onClick={stopTimer}>Pause</button>}
-            <button onClick={resetTimer}>Reset</button>
+          { pause ? <Button onClick={startTimer}>Start</Button> : <Button onClick={stopTimer}>Pause</Button>}
+            <Button onClick={resetTimer}>Reset</Button>
           </section>
         </CardActions>
         </CardContent>
