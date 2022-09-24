@@ -82,7 +82,7 @@ const GuidedMeditation = ({handleViewChange}) => {
 
   return isLoading ? <h2>Enjoy this moment</h2> : (
       <>
-      <Card>
+      <Card sx={{ width: 600}}>
         <CardContent
         sx={{
           textAlign: "center"
@@ -91,7 +91,9 @@ const GuidedMeditation = ({handleViewChange}) => {
         <Button onClick={handleViewChange} size={'small'}>
           Switch to Meditation Timer
         </Button>
-        <h1>Guided Meditation</h1>
+        <Typography variant='h2'>
+          Guided Meditations
+        </Typography>
 
       <Carousel 
         key={videoIndexStart}
