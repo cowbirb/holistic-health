@@ -135,7 +135,7 @@ function ProfileDetails({ user }) {
           select
           label="Sex"
           InputLabelProps={labelProps}
-          value={userInfo.sex}
+          value={userSex}
           onChange={handleFieldChange}
         >
           {sexes.map((option) => {
@@ -163,12 +163,6 @@ function ProfileDetails({ user }) {
           userHeight={userHeight}
           userWeight={userWeight}
         />
-      </Box>
-      <Box>
-        <Meals />
-      </Box>
-      <Box>
-       <Exercise user={user} />
       </Box>
     </div>
   );
