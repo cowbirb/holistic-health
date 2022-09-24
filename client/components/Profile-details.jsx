@@ -98,6 +98,7 @@ function ProfileDetails({ user }) {
           borderColor: "grey",
         }}
       >
+
         <TextField
           id="Agefield"
           name="Age"
@@ -134,7 +135,7 @@ function ProfileDetails({ user }) {
           select
           label="Sex"
           InputLabelProps={labelProps}
-          value={userSex}
+          value={userInfo.sex}
           onChange={handleFieldChange}
         >
           {sexes.map((option) => {
@@ -162,6 +163,12 @@ function ProfileDetails({ user }) {
           userHeight={userHeight}
           userWeight={userWeight}
         />
+      </Box>
+      <Box>
+        <Meals />
+      </Box>
+      <Box>
+       <Exercise user={user} />
       </Box>
     </div>
   );

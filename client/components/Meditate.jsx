@@ -8,7 +8,6 @@ import updateMeditateProps from '../services/meditate/meditate-services.js';
 
 const Meditate = () => {  
   const { currentUser } = useContext(UserContext);
-  console.log('currentUser:', currentUser)
   // initialize timer start value using useState
   const [userNum, setUserNum] = useState(currentUser && currentUser.default_timer || 600);
   // initialize a pause state value set to true
