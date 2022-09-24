@@ -31,7 +31,6 @@ export const UserProvider = ({ children }) => {
   // and then we want to make a request to our backend to create a user document in the database
 
   useEffect(() => {
-    console.log(user);
     if (isAuthenticated) {
       axios
         .post("/api/user/googleAuth", { user })
