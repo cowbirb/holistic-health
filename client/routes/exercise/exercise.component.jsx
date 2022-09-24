@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import {UserContext} from '../../context/user.context';
-import Exercises from '../../components/Exercise'
 
 
 
