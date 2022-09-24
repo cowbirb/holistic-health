@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 
 import { UserContext } from "../../context/user.context.jsx";
+import JournalEntriesList from "../../components/journal-entries-list/journal-entries-list.component.jsx";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -24,7 +25,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileEncode);
 
 const Journal = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, journals, setJournals } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [journalEntry, setJournalEntry] = useState({
@@ -49,13 +50,15 @@ const Journal = () => {
   const handleSubmission = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(`/api/user/${currentUser._id}/journal`, { journalEntry:{
+     const {data} = await axios.post(`/api/user/${currentUser._id}/journal`, {
+        journalEntry: {
           title: journalEntry.title,
           content: journalEntry.content,
           image: file && file[0].file.name,
           image_type: file && file[0].file.type,
-      }
+        },
       });
+        setJournals([...journals, data]);
     } catch (error) {
       console.log(error);
     }
@@ -65,39 +68,6 @@ const Journal = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          margin: "auto",
-          width: "50%",
-          marginTop: "10px",
-          textAlign: "center",
-        }}
-      >
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Journal
-            </Typography>
-            <Typography variant="h5" component="div">
-              Let out your thoughts and feelings...
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Don’t judge what you’re writing – just get it out! The goal is to
-              clear your head and make room for new thoughts. Don’t try to force
-              something brilliant just write how you feel.
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" onClick={handleClickOpen}>
-              Start Writing
-            </Button>
-          </CardActions>
-        </Card>
-      </Box>
       {/* a card centered with inputs for the journal in a dialog */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Write your thoughts</DialogTitle>
@@ -140,6 +110,40 @@ const Journal = () => {
           <Button onClick={handleSubmission}>Save</Button>
         </DialogActions>
       </Dialog>
+      <Box
+        sx={{
+          margin: "auto",
+          width: "50%",
+          marginTop: "10px",
+          textAlign: "center",
+        }}
+      >
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Journal
+            </Typography>
+            <Typography variant="h5" component="div">
+              Let out your thoughts and feelings...
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              Don’t judge what you’re writing – just get it out! The goal is to
+              clear your head and make room for new thoughts. Don’t try to force
+              something brilliant just write how you feel.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={handleClickOpen}>
+              Start Writing
+            </Button>
+          </CardActions>
+        </Card>
+      </Box>
+        <JournalEntriesList />
     </>
   );
 };
