@@ -5,7 +5,7 @@ import { UserContext } from '../../context/user.context';
 import ExerciseList from '../../components/ExerciseList';
 
 const Exercise = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [newWorkout, setNewWorkout] = useState({
     workout: '',
     weight: '',
@@ -21,6 +21,19 @@ const Exercise = () => {
     }));
   };
 
+  const handleDelete = (_id) => {
+    const {saved_workouts, email} = currentUser;
+    const selectedWorkout = saved_workouts.filter(workout => {
+      return workout._id === _id;
+    });
+    console.log(selectedWorkout);
+    axios.put(`/api/user/exercise/${email}`, {
+      user: {$pull: {saved_workouts: selectedWorkout[0]}}
+    })
+    .then(updateUser)
+    .catch(err => console.log('delete workout unsuccessful', err));
+  };
+
   const createWorkout = () => {
     axios
       .put(`/api/user/exercise/${currentUser.email}`, {
@@ -34,7 +47,19 @@ const Exercise = () => {
           reps: '',
         })
       )
+      .then(updateUser)
       .catch((err) => console.log('workout update unsuccessful', err));
+  };
+
+  const updateUser = async () => {
+    const {_id} = currentUser;
+    try{
+      const data = await axios.get('/:id', {_id});
+      console.log('--->', data);
+      // setCurrentUser(data);
+    } catch (err) {
+      console.log('update user unsuccessful', err);
+    }
   };
 
   if (!currentUser) {
@@ -94,7 +119,6 @@ const Exercise = () => {
         <Box sx={{
           textAlign:'right',
           width: '80%',
-          // margin: 'auto',
         }}>
           <Button type='submit' onClick={createWorkout}>
             Update Workout
@@ -110,7 +134,12 @@ const Exercise = () => {
       >
         <h1>Recent Workouts</h1>
         {saved_workouts.map((workout, _id) => (
-          <ExerciseList key={_id} workout={workout} daily_info={daily_info} />
+          <ExerciseList 
+          key={_id} 
+          workout={workout} 
+          daily_info={daily_info} 
+          handleDelete={handleDelete}
+          />
         ))}
       </Box>
       </>

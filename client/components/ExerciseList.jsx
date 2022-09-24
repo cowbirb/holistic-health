@@ -1,20 +1,18 @@
 import React from 'react';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
-  styled,
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
   Collapse,
   IconButton,
-  Typography,
   Button,
   List,
   ListItem,
 } from "@mui/material";
 
-const ExerciseList = ({workout: {workout, weight, set, reps}, daily_info}) => (
+const ExerciseList = ({workout: {_id, workout, weight, set, reps}, daily_info, handleDelete}) => (
   <Card  sx={{ 
     maxWidth: 345, 
     boxShadow: 7,
@@ -23,7 +21,12 @@ const ExerciseList = ({workout: {workout, weight, set, reps}, daily_info}) => (
     marginTop: "10px",
     textAlign: "center",
     }} className='workout-card' >
-    <CardHeader title={daily_info[daily_info.length - 1].date} />
+    <CardHeader 
+      action={
+      <IconButton onClick={() => handleDelete(_id)}>
+        <DeleteOutlineIcon />
+      </IconButton>} 
+      title={daily_info[daily_info.length - 1].date} />
     <CardContent>
       <List>
         <ListItem>Type of workout: {workout}</ListItem>
