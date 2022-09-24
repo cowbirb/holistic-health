@@ -3,6 +3,10 @@ import { UserContext } from '../context/user.context.jsx';
 // import Typography from '@mui/material/Typography';
 import chime from '../media/audio/meditation-chime.mp3';
 import updateMeditateProps from '../services/meditate/meditate-services.js';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import { styled } from '@mui/material/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { 
   Slider, 
   Typography,
@@ -10,6 +14,9 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Collapse,
+  //ExpandMoreIcon,
+  IconButton,
   Button,
 } from '@mui/material';
 
@@ -27,12 +34,28 @@ const MeditateTimer = ({handleViewChange}) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   // set a value for the currentMantra
   const [currentMantra, setCurrentMantra] = useState([])
+  // set a value for the expanded card
+  const [expanded, setExpanded] = useState(false);
   // const renders = useRef(0);
   const timerId = useRef();
 
   const mantras = [[['Breathing in, I calm my body'],['Breathing out, I smile'], ['Dwelling in the present moment'], ['I know this is a wonderful moment.']]
-, [['I'],['Am'],['Here'],['Now']], [['I have arrived'], ['I am home']], [['May you be free'], ['May you be at peace'], ['May you be healthy'], ['Thank you']], [], []];
+, [['I'],['Am'],['Here'],['Now']], [['I have arrived'], ['I am home']], [['May you be free'], ['May you be at peace'], ['May you be healthy'], ['Thank you']]];
   
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+
+const handleExpandClick = () => {
+  setExpanded(!expanded);
+};
 
 const handleSliderChange = (e) => {
   setTimerVal(e.target.value * 60);
@@ -101,28 +124,11 @@ const startTimer = () => {
   const RenderView = () => {
     // if the time isn't up
     if (!isTimeUp) {
-      // if the timer is running
-      if (isTimerRunning) {
-          return !currentMantra.length ? 
-              (
-              <>
-              <p><i>breathe in...</i></p>
-              <br></br>
-              <p><i>breathe out...</i></p>
-              <br></br>
-              </>
-              ) : currentMantra.map((line, i) => {
-                  return (
-                  <div key={line + i}>
-                    <p><i>{i % 2 === 0 ? 'breathe in...' : 'breathe out...'}</i></p>
-                    <h3>{line}</h3>
-                    <br></br>
-                  </div>
-                  )}
-              )
-      } else {
-        return <h2>{secondsView === '00' ? `${minutes} minutes` : `${minutes} minutes ${secondsView} seconds`}</h2>;
-      }
+        return (
+          <Typography variant='h5' color='text.secondary'>
+            {secondsView === '00' ? `${minutes} minutes` : `${minutes} minutes ${secondsView} seconds`}
+          </Typography>
+        )
     } else {
       return <h2>Thank you.</h2>;
     }
@@ -130,18 +136,18 @@ const startTimer = () => {
   
   return (
     <>
-    <Card>
+    <Card sx={{ width: 600}} >
       <CardContent>
       {/* <CardHeader> */}
         <Button onClick={handleViewChange} size={'small'}>
           Switch to Guided Meditation
         </Button>
-        <h1>Meditation Timer</h1>
+        <Typography variant='h2'>
+          Meditation Timer
+        </Typography>
       {/* </CardHeader> */}
       <br></br>
-      <br></br>
       <RenderView />
-      <br /><br />
       <br /><br />
       <Slider
         aria-label="Time"
@@ -160,7 +166,46 @@ const startTimer = () => {
           { pause ? <Button onClick={startTimer}>Start</Button> : <Button onClick={stopTimer}>Pause</Button>}
             <Button onClick={resetTimer}>Reset</Button>
           </section>
+          <Button>Mantras</Button>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show mantras"
+          >
+            <ExpandMoreIcon />
+          </ExpandMore>
         </CardActions>
+        <Collapse in={expanded} unmountOnExit>
+        <CardContent>
+        <Carousel 
+       // key={videoIndexStart}
+       // showIndicators={false} 
+        showThumbs={false} 
+        useKeyboardArrows={true} 
+        showStatus={false}
+        infiniteLoop={true}
+        // width={'75%'}
+        >
+              {mantras.map((mantra, i) => (
+                <div key={`${mantra}, ${i}`}>
+                  {mantra.map((line, i) => (
+                  <div key={line + i}>
+                    <Typography variant='body1' color='text.secondary'>
+                    {i % 2 === 0 ? 'breathe in...' : 'breathe out...'}
+                    </Typography>
+                    <Typography variant='h5'>
+                      {line}
+                    </Typography>
+                    <br></br>
+                  </div>
+                  ))}
+                </div>
+              ))}
+              
+            </Carousel>
+        </CardContent>
+        </Collapse>
         </CardContent>
       </Card>
     </>
