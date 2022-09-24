@@ -98,6 +98,7 @@ function ProfileDetails({ user }) {
           borderColor: "grey",
         }}
       >
+
         <TextField
           id="Agefield"
           name="Age"

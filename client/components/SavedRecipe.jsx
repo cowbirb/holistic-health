@@ -80,13 +80,11 @@ const SavedRecipe = ({ savedRecipe }) => {
         <Typography gutterBottom variant="h6" component="div">
           {Math.round(savedRecipe.calories)} Calories
         </Typography>
-        <Typography>
-          <List>
-            <ListItem>Fat: {savedRecipe.fat} g</ListItem>
-            <ListItem>Carbs: {savedRecipe.carbs} g</ListItem>
-            <ListItem>Protein: {savedRecipe.protein} g</ListItem>
-          </List>
-        </Typography>
+        <List>
+          <ListItem>Fat: {savedRecipe.fat} g</ListItem>
+          <ListItem>Carbs: {savedRecipe.carbs} g</ListItem>
+          <ListItem>Protein: {savedRecipe.protein} g</ListItem>
+        </List>
       </CardContent>
       <CardActions>
         <Button
