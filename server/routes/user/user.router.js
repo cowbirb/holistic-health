@@ -1,13 +1,13 @@
 const express = require('express');
 
-const { saveUser, updateUser, saveRecipe, getRecipes, saveEmotion, deleteRecipe, updateMeditate, getUser, updateWorkout } = require('./user.controller');
+const { saveUser, updateUser, saveRecipe, getRecipes, saveEmotion, deleteRecipe, updateMeditate, getUser, createWorkout } = require('./user.controller');
 
 const userRouter = express.Router();
 
 // userRouter.put('/:id', updateUser);
-userRouter.route('/:id').get(getUser).put(updateWorkout);
+userRouter.route('/:id').get(getUser).post(createWorkout);
 
-// userRouter.put('/:id', updateWorkout);
+userRouter.put('/:id', updateUser);
 
 userRouter.post("/:id/emotionOfTheDay", saveEmotion);
 
