@@ -31,6 +31,6 @@ userRouter
 
 userRouter.put("/meditate/:id", updateMeditate);
 
-userRouter.put('/exercise/:id', createWorkout);
+userRouter.put('/exercise/:email', createWorkout);
 
 module.exports = userRouter;
