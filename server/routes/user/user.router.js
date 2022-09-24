@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   saveUser,
+  getUser,
   updateUser,
   saveRecipe,
   getRecipes,
@@ -10,7 +11,7 @@ const {
   saveJournalEntry,
   deleteRecipe,
   updateMeditate,
-  createWorkout,
+  updateWorkout,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -32,6 +33,8 @@ userRouter
 
 userRouter.put("/meditate/:id", updateMeditate);
 
-userRouter.put('/exercise/:email', createWorkout);
+userRouter.put('/exercise/:email', updateWorkout);
+
+userRouter.get('/:id', getUser);
 
 module.exports = userRouter;

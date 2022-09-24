@@ -180,7 +180,7 @@ const updateMeditate = async (req, res) => {
   }
 };
 
-const createWorkout = (req, res) => {
+const updateWorkout = (req, res) => {
   const {params: {email}, body: {user}} = req;
  
     User.updateOne({email}, user, {upsert: true})
@@ -192,7 +192,6 @@ const createWorkout = (req, res) => {
       }
     })
     .catch(() => res.sendStatus(500));
-
 };
 
 module.exports = {
@@ -206,5 +205,5 @@ module.exports = {
   saveJournalEntry,
   updateUser,
   updateMeditate,
-  createWorkout,
+  updateWorkout,
 };
