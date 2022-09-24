@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import {TextField, Box, Button} from '@mui/material';
 import axios from 'axios';
 import { UserContext } from '../../context/user.context';
 import ExerciseList from '../../components/ExerciseList';
@@ -41,13 +40,19 @@ const Exercise = () => {
   if (!currentUser) {
     return <h1>Please login</h1>;
   } else {
-    console.log(currentUser);
     const { saved_workouts, daily_info } = currentUser;
+    // console.log(saved_workouts.sort((a, b) => ));
  
     return (
       <>
         <Box
-          sx={{border:'1px', borderColor: 'grey'}}
+          sx={{
+          margin: 'auto',
+          marginTop: '10px',
+          textAlign: 'center',
+          border:'1px',
+          borderColor: 'grey'
+        }}
         >
           <TextField
             placeholder='name of exercise'
@@ -85,14 +90,29 @@ const Exercise = () => {
           >
             Number of Reps
           </TextField>
-          <button type='submit' onClick={createWorkout}>
-            Update Workout
-          </button>
         </Box>
+        <Box sx={{
+          textAlign:'right',
+          width: '80%',
+          // margin: 'auto',
+        }}>
+          <Button type='submit' onClick={createWorkout}>
+            Update Workout
+          </Button>
+        </Box>
+        <Box
+        sx={{
+          margin: "auto",
+          width: "50%",
+          marginTop: "10px",
+          textAlign: "center",
+        }}
+      >
         <h1>Recent Workouts</h1>
         {saved_workouts.map((workout, _id) => (
           <ExerciseList key={_id} workout={workout} daily_info={daily_info} />
         ))}
+      </Box>
       </>
     );
   }

@@ -15,7 +15,14 @@ import {
 } from "@mui/material";
 
 const ExerciseList = ({workout: {workout, weight, set, reps}, daily_info}) => (
-  <Card  sx={{ maxWidth: 345, boxShadow: 7 }} className='workout-card' >
+  <Card  sx={{ 
+    maxWidth: 345, 
+    boxShadow: 7,
+    margin: "auto",
+    width: "50%",
+    marginTop: "10px",
+    textAlign: "center",
+    }} className='workout-card' >
     <CardHeader title={daily_info[daily_info.length - 1].date} />
     <CardContent>
       <List>
