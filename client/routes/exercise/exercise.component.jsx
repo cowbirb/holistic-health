@@ -24,7 +24,7 @@ const Exercise = () => {
   }
 
   const createWorkout = () => {
-    console.log('currentUser: ', currentUser);
+  
      axios.put(`/api/user/exercise/${currentUser.email}`, {user: {$push: {saved_workouts: newWorkout}}})
      .then(() => setNewWorkout({
        workout: '',
