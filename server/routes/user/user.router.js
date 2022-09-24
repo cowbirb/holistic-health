@@ -10,6 +10,7 @@ const {
   saveJournalEntry,
   deleteRecipe,
   updateMeditate,
+  createWorkout,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -29,5 +30,7 @@ userRouter
   .delete(deleteRecipe);
 
 userRouter.put("/meditate/:id", updateMeditate);
+
+userRouter.put('/exercise/:id', createWorkout);
 
 module.exports = userRouter;
