@@ -4,9 +4,11 @@ const { User } = require('../../models');
 const saveUser = async (req, res) => {
   // add today's date to the user's daily_info array
   const { user } = req.body;
+  console.log(req);
   try {
     const existingUser = await User.findOne({ email: user.email });
     if (existingUser) {
+
       // if the user already exists, add today's date to the daily_info array 
       // check if the date already exists in the daily_info array and if it does not match the current date, add it to the array
       const today = existingUser.daily_info.find(info => info.date === new Date(Date.now()).toDateString());
@@ -17,6 +19,7 @@ const saveUser = async (req, res) => {
       res.status(200).json(existingUser);
     } else {
       const newUser = await User.create( { ...user, daily_info: { date: new Date(Date.now()).toDateString() } });
+      // res.status(201).json(newUser);
       res.json(newUser);
     }
   } catch (error) {
@@ -47,11 +50,27 @@ const updateUser = async (req, res) => {
 };
 
 
-const updateWorkout = (req, res) => {
-  const {params: {id}, body: {users}} = req;
-  // const date = new Date(Date.now()).toString();
-  // console.log(date);
-  User.updateOne({_id: id}, users)
+
+const createWorkout = async (req, res) => {
+  const {params: {id}, body: {workout}} = req;
+  // const date = new Date(Date.now()).toDateString();
+  
+  // try {
+  //   const user = await User.findOne({_id: id});
+  //   const today = user.daily_info.find(daily => daily.date === date);
+  //   if (today) {
+  //     today.saved_workouts.push(workout);
+  //     await user.save();
+  //     res.sendStatus(200);
+  //   } else {
+  //     res.sendStatus(404);
+  //   }
+    
+  // } catch(err) {
+  //   res.sendStatus(500);
+  // }
+
+  User.updateOne({_id: id}, {workout})
     .then(({modifiedCount}) => {
       if ({modifiedCount}) {
         res.sendStatus(200);
@@ -159,7 +178,7 @@ module.exports = {
   saveEmotion,
   updateUser,
   updateMeditate,
-  updateWorkout,
+  createWorkout,
 };
 
 
