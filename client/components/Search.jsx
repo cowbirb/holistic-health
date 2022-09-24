@@ -1,37 +1,44 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { AppContext } from '../context/AppContext.jsx';
 import SearchFeed from './SearchFeed.jsx';
+import axios from 'axios';
+
+const { RECIPES_API_ID} = process.env;
+const {RECIPES_API_KEY } = process.env;
 
 function Search() {
-  const { searchResults, searchRecipes } = useContext(AppContext);
-  const { register, handleSubmit } = useForm(); // register watches input for changes https://react-hook-form.com/get-started
-  const onSubmit = (data, e) => {
-    // form data and event
-    // submit handler
-    searchRecipes(data);
-    e.target.reset(); // clear input after search
-  };
+  const [query, setQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+const handleSearch = async (e) => {
+  e.preventDefault();
+  console.log('searching');
+ const response = await axios.get(`https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${RECIPES_API_ID}&app_key=${RECIPES_API_KEY}`)
+  console.log(response.data.hits);
+  setSearchResults(response.data.hits);
+};
+
+const handleChange = (e) => {
+  setQuery(e.target.value);
+};
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSearch}>
         <div className='searchBox'>
           <input
             className='searchInput'
             type='text'
-            name=''
-            placeholder='Search'
-            {...register('query')}
+            placeholder='Search for a recipe...'
+            onChange={handleChange}
           />
-          <button className='searchButton' href='#'>
+          <button type='submit'>
             <SearchIcon />
           </button>
         </div>
       </form>
-      <SearchFeed />
+      <SearchFeed searchResults={searchResults}/>
     </div>
   );
 }

@@ -7,17 +7,15 @@ module.exports = {
   entry: path.resolve(__dirname, 'client', 'index.jsx'),
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'client/public/dist'),
+    assetModuleFilename: '[name][ext]',
   },
-  plugins: [
-    new Dotenv()
-  ],
-  watch: true,
+  plugins: [new Dotenv()],
   module: {
     rules: [
       {
         test: /\.(jsx|js)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/,],
         use: {
           loader: 'babel-loader',
           options: {
@@ -25,6 +23,22 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+        options: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        },
+      },
     ],
   },
+  resolve: { extensions: ['*', '.js', '.jsx'] },
 };
