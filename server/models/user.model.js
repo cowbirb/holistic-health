@@ -4,9 +4,10 @@ const userSchema = new Schema({
   name: String,
   email: String,
   picture: String,
-  weight: Number,
-  height: Number,
-  age: Number,
+  weight: String,
+  height: String,
+  age: String,
+  sex: String,
   default_timer: {
     type: Number,
     default: 600,
