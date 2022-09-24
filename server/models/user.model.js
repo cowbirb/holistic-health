@@ -84,7 +84,7 @@ const userSchema = new Schema({
       weight: String,
       set: String,
       reps: String,
-    },
+    }
   ],
 });
 
