@@ -23,14 +23,15 @@ userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
 
 userRouter.route("/:id/journal").post(saveJournalEntry);
 
-userRouter.route("/exercise/:email", createWorkout);
 
 userRouter
-  .route("/myrecipes/:id")
-  .get(getRecipes)
-  .post(saveRecipe)
-  .delete(deleteRecipe);
+.route("/myrecipes/:id")
+.get(getRecipes)
+.post(saveRecipe)
+.delete(deleteRecipe);
 
 userRouter.put("/meditate/:id", updateMeditate);
+
+userRouter.put('/exercise/:email', createWorkout);
 
 module.exports = userRouter;
