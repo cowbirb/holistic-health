@@ -182,8 +182,8 @@ const updateMeditate = async (req, res) => {
 
 const createWorkout = (req, res) => {
   const {params: {email}, body: {user}} = req;
-
-    User.updateOne({email}, {user: {saved_workouts}}, {upsert: true})
+ 
+    User.updateOne({email}, user, {upsert: true})
     .then(({modifiedCount}) => {
       if ({modifiedCount}) {
         res.sendStatus(200);
