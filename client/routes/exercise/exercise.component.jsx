@@ -50,6 +50,8 @@ const Exercise = () => {
    }
   };
 
+  
+
   return (
     <>
     <Box >
@@ -79,23 +81,7 @@ const Exercise = () => {
         onClick={createWorkout}
         >Update Workout</button>
     </Box>
-    <Card sx={{ maxWidth: 345, boxShadow: 7 }}>
-       <FitnessCenterIcon>
 
-
-    <Container>
-      <Grid
-        style={{display: 'flex', justifyContent: 'center'}}
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-      </Grid>
-    </Container>
-
-       </FitnessCenterIcon>
-   
-    </Card>
   </>
   )
 }
