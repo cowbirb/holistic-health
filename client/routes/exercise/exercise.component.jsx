@@ -4,23 +4,8 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import {UserContext} from '../../context/user.context';
 import Exercises from '../../components/Exercise'
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import {
-  styled,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  IconButton,
-  Typography,
-  Button,
-  List,
-  ListItem,
-} from "@mui/material";
+
+
 
 const Exercise = () => {
   const {currentUser, setCurrentUser} = useContext(UserContext);
@@ -39,6 +24,7 @@ const Exercise = () => {
   }
 
   const createWorkout = () => {
+    console.log('currentUser: ', currentUser);
    if (newWorkout.workout) {
      axios.put(`/api/user/exercise/${currentUser.email}`, {users: {$push: {saved_workouts: newWorkout}}})
      .then(() => setNewWorkout({
@@ -51,6 +37,9 @@ const Exercise = () => {
   };
 
   
+  if (!currentUser) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
@@ -81,7 +70,6 @@ const Exercise = () => {
         onClick={createWorkout}
         >Update Workout</button>
     </Box>
-
   </>
   )
 }
