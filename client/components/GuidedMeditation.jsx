@@ -16,7 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 
-const GuidedMeditation = () => {
+const GuidedMeditation = ({handleViewChange}) => {
   // create states
   const [videoIndexStart, setVideoIndexStart] = useState(0);
   const [videos, setVideos] = useState([]);
@@ -103,13 +103,23 @@ const GuidedMeditation = () => {
   return isLoading ? <h2>Enjoy this moment</h2> : (
       <>
       <Card>
-        <CardContent>
+        <CardContent
+        sx={{
+          textAlign: "center"
+        }}
+        >
+        <Button onClick={handleViewChange} size={'small'}>
+          Switch to Meditation Timer
+        </Button>
+        <h1>Guided Meditation</h1>
     {/* <CurrentGuidedVideo video={currentVideo} />
     {currentVideoList.map((video, i) => <GuidedVideoEntry video={video} key={video.id.videoId} />)} */}
       <Carousel 
+        key={videoIndexStart}
         showIndicators={false} 
         showThumbs={false} 
         useKeyboardArrows={true} 
+        showStatus={false}
         width={'75%'}
         >
               {currentVideoList.map(video => <CurrentGuidedVideo video={video} key={video.id.videoId} />)}
