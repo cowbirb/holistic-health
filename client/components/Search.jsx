@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchFeed from './SearchFeed.jsx';
 import axios from 'axios';
+import {TextField, Box, Button} from '@mui/material';
 
 const { RECIPES_API_ID} = process.env;
 const {RECIPES_API_KEY } = process.env;
@@ -24,22 +25,41 @@ const handleChange = (e) => {
 };
 
   return (
-    <div>
+    <>
+       <Box
+          sx={{
+          margin: 'auto',
+          marginTop: '50px',
+          textAlign: 'center',
+          border:'1px',
+          borderColor: 'grey'
+        }}
+        >
+          
       <form onSubmit={handleSearch}>
-        <div className='searchBox'>
-          <input
-            className='searchInput'
+        <div className='searchBox'
+
+        >
+          <TextField
+            InputProps={{ sx: { height: 40 } }}
+
+            variant='outlined'
             type='text'
             placeholder='Search for a recipe...'
             onChange={handleChange}
-          />
-          <button type='submit'>
+            />
+          <Button 
+          type='submit'
+          variant='contained'
+          size='large'
+          >
             <SearchIcon />
-          </button>
+          </Button>
         </div>
       </form>
       <SearchFeed searchResults={searchResults}/>
-    </div>
+      </Box>
+    </>
   );
 }
 
