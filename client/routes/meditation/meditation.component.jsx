@@ -27,7 +27,7 @@ const Meditation = () => {
           textAlign: 'center',
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: '5%'
+          marginTop: '8%'
         }}
       >
       {view === 'Meditation Timer' ? <MeditateTimer handleViewChange={handleViewChange} /> : <GuidedMeditation handleViewChange={handleViewChange} />}
