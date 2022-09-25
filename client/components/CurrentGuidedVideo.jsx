@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '@mui/material';
 
 const CurrentGuidedVideo = ({video}) => {
 
@@ -15,8 +16,13 @@ var decodedTitle = dom.body.textContent;
       <iframe src={ `https://www.youtube.com/embed/${video.id.videoId}` } allowFullScreen></iframe>
     </div>
     <div>
-      <h4>{decodedTitle}</h4>
-      <h5>{video.duration}</h5>
+      <Typography variant='h5'>
+        {decodedTitle}
+
+      </Typography>
+      <Typography variant='h6' color='text.secondary'>
+        {video.duration}
+      </Typography>
     </div>
   </div>
 );

@@ -20,6 +20,7 @@ import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import HolisticLogo from "../../../assets/HolisticYouBlue.png"
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -221,6 +222,7 @@ const Home = () => {
             }}
           >
             <CardContent sx={{ textAlign: "center" }}>
+              <img src={HolisticLogo} width='85px'/>
               <Typography
                 sx={{
                   fontSize: 22,
