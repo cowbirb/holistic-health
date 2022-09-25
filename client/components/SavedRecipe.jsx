@@ -73,6 +73,7 @@ const SavedRecipe = ({ savedRecipe }) => {
       <CardMedia
         component="img"
         height="140"
+        referrerPolicy="no-referrer"
         image={savedRecipe.image}
         alt={savedRecipe.label}
       />
