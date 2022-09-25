@@ -23,10 +23,11 @@ const Meditation = () => {
     <>
       <Box 
         sx={{
-          margin: "auto",
-          width: "80%",
-          marginTop: "10px",
-          textAlign: "center",
+          display: 'flex',
+          textAlign: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '5%'
         }}
       >
       {view === 'Meditation Timer' ? <MeditateTimer handleViewChange={handleViewChange} /> : <GuidedMeditation handleViewChange={handleViewChange} />}
