@@ -17,6 +17,7 @@ import {
   Collapse,
   //ExpandMoreIcon,
   IconButton,
+  Grid,
   Button,
 } from '@mui/material';
 
@@ -173,19 +174,37 @@ const startTimer = () => {
         max={30}
         />
       <CardActions>
+        <Grid container spacing={12}>
+          <Grid item xs
+            sx={{
+              justifyContent:'left',
+            }}
+            xs={6}
+          >
+            
         <section>
           { pause ? <Button onClick={startTimer}>Start</Button> : <Button onClick={stopTimer}>Pause</Button>}
             <Button onClick={resetTimer}>Reset</Button>
           </section>
+          </Grid>
+          <Grid item xs
+            sx={{
+              justifyContent:'right',
+            }}
+            
+          >
+
           <Button>Mantras</Button>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show mantras"
-          >
+            >
             <ExpandMoreIcon />
           </ExpandMore>
+            </Grid>
+        </Grid>
         </CardActions>
         <Collapse in={expanded} unmountOnExit>
         <CardContent>

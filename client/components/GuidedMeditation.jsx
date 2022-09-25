@@ -99,7 +99,7 @@ const GuidedMeditation = ({handleViewChange}) => {
         key={videoIndexStart}
         showIndicators={false} 
         showThumbs={false} 
-        useKeyboardArrows={true} 
+        useKeyboardArrows={true}
         showStatus={false}
         // width='75%'
         >
