@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const cors = require("cors");
 require("./db");
 require("dotenv").config();
 
@@ -11,6 +12,7 @@ const publicPath = path.resolve(__dirname, "../client/public");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(publicPath));

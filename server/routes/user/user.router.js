@@ -2,15 +2,19 @@ const express = require("express");
 
 const {
   saveUser,
+  getUser,
   updateUser,
   saveRecipe,
   getRecipes,
   saveEmotion,
   getEmotion,
   saveJournalEntry,
+  getJournalEntries,
+  editJournalEntry,
+  deleteJournalEntry,
   deleteRecipe,
   updateMeditate,
-  createWorkout,
+  updateWorkout,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -21,7 +25,12 @@ userRouter.put("/:id", updateUser);
 
 userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
 
-userRouter.route("/:id/journal").post(saveJournalEntry);
+userRouter
+  .route("/:id/journal")
+  .get(getJournalEntries)
+  .post(saveJournalEntry)
+  .put(editJournalEntry)
+  .delete(deleteJournalEntry);
 
 
 userRouter
@@ -32,6 +41,9 @@ userRouter
 
 userRouter.put("/meditate/:id", updateMeditate);
 
-userRouter.put('/exercise/:email', createWorkout);
+userRouter
+.route('/exercise/:email')
+.put(updateWorkout)
+.get(getUser);
 
 module.exports = userRouter;

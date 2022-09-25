@@ -30,12 +30,16 @@ const saveUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  const { params: {email} } = req;
   try {
-    const user = await User.findById(id);
-    res.status(200).json(user);
+    const user = await User.findOne({email});
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
-    res.status(500).json(error);
+    res.sendStatus(500);
   }
 };
 
@@ -103,11 +107,9 @@ const saveEmotion = async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findOne({ _id: id });
-    // find the daily_info object in the daily_info array that matches the current date
     const today = user.daily_info.find(
       (info) => info.date === new Date(Date.now()).toDateString()
     );
-    // if the daily_info object exists, set the emotion property to the emotion that was sent from the client
     if (today) {
       today.emotion_of_the_day = emotion;
       await user.save();
@@ -127,7 +129,6 @@ const getEmotion = async (req, res) => {
     const today = user.daily_info.find(
       (info) => info.date === new Date(Date.now()).toDateString()
     );
-    // if the daily_info object exists, send the emotion property back to the client
     if (today) {
       res.status(200).json(today.emotion_of_the_day);
     } else {
@@ -140,24 +141,85 @@ const getEmotion = async (req, res) => {
 };
 
 const saveJournalEntry = async (req, res) => {
-    const { journalEntry } = req.body;
-    const { id } = req.params;
-    try {
-        const user = await User.findOne({ _id: id });
-        // find the daily_info object in the daily_info array that matches the current date
-        const today = user.daily_info.find(
-        (info) => info.date === new Date(Date.now()).toDateString()
-        );
-        // if the daily_info object exists, set the journal_entry property to the journalEntry that was sent from the client
-        if (today) {
-        today.journal_entries.push(journalEntry); 
-        await user.save();
-        res.sendStatus(201);
-        }
-    } catch (err) {
-        console.log("could not save journal entry", err);
-        res.sendStatus(500);
+  const { journalEntry } = req.body;
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: id });
+    const today = user.daily_info.find(
+      (info) => info.date === new Date(Date.now()).toDateString()
+    );
+    if (today) {
+      today.journal_entries.push(journalEntry);
+      await user.save();
+      res.status(201).send(journalEntry);
     }
+  } catch (err) {
+    console.log("could not save journal entry", err);
+    res.sendStatus(500);
+  }
+};
+
+const getJournalEntries = async (req, res) => {
+  const { id } = req.params;
+  const journalEntriesMap = new Map();
+  try {
+    const user = await User.findOne({ _id: id });
+    user.daily_info.forEach((info) => {
+      journalEntriesMap.set(info.date, info.journal_entries);
+    });
+    //    destructuring the map into an array of objects
+    const journalEntries = [...journalEntriesMap].map(([date, entries]) => ({
+      date,
+      entries,
+    }));
+    res.status(200).json(journalEntries);
+  } catch (err) {
+    console.log("could not get journal entries", err);
+    res.sendStatus(500);
+  }
+};
+
+const editJournalEntry = async (req, res) => {
+  const { journalEditedEntry } = req.body;
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: id });
+    const journalEntry = user.daily_info
+      .find((info) => info.date === journalEditedEntry.date)
+      .journal_entries.find(
+        (entry) => entry._id.toString() === journalEditedEntry._id
+      );
+    if (journalEntry) {
+      const { date, ...rest } = journalEditedEntry;
+      Object.assign(journalEntry, rest);
+      await user.save();
+      res.status(200).json(journalEntry);
+    }
+  } catch (err) {
+    console.log("could not edit journal entry", err);
+    res.sendStatus(500);
+  }
+};
+
+const deleteJournalEntry = async (req, res) => {
+  const { id } = req.params;
+  const { journalEditedEntry } = req.body;
+  try {
+    const user = await User.findOne({ _id: id });
+    const today = user.daily_info.find(
+      (info) => info.date === journalEditedEntry.date
+    );
+    if (today) {
+      today.journal_entries = today.journal_entries.filter(
+        (entry) => entry._id.toString() !== journalEditedEntry._id
+      );
+      await user.save();
+      res.status(200).json(today.journal_entries);
+    }
+  } catch (err) {
+    console.log("could not delete journal entry", err);
+    res.sendStatus(500);
+  }
 };
 
 const updateMeditate = async (req, res) => {
@@ -180,7 +242,7 @@ const updateMeditate = async (req, res) => {
   }
 };
 
-const createWorkout = (req, res) => {
+const updateWorkout = (req, res) => {
   const {params: {email}, body: {user}} = req;
  
     User.updateOne({email}, user, {upsert: true})
@@ -192,7 +254,6 @@ const createWorkout = (req, res) => {
       }
     })
     .catch(() => res.sendStatus(500));
-
 };
 
 module.exports = {
@@ -204,7 +265,10 @@ module.exports = {
   saveEmotion,
   getEmotion,
   saveJournalEntry,
+  getJournalEntries,
+  editJournalEntry,
+  deleteJournalEntry,
   updateUser,
   updateMeditate,
-  createWorkout,
+  updateWorkout,
 };
