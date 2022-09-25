@@ -81,9 +81,10 @@ const userSchema = new Schema({
   saved_workouts: [
     {
       workout: String,
-      set: Number,
-      reps: Number,
-    },
+      weight: String,
+      set: String,
+      reps: String,
+    }
   ],
 });
 

@@ -1,14 +1,20 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { Slider, Typography } from '@mui/material';
 import { UserContext } from '../context/user.context.jsx';
 // import Typography from '@mui/material/Typography';
 import chime from '../media/audio/meditation-chime.mp3';
 import updateMeditateProps from '../services/meditate/meditate-services.js';
+import { 
+  Slider, 
+  Typography,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Button,
+} from '@mui/material';
 
-
-const Meditate = () => {  
+const MeditateTimer = ({handleViewChange}) => {  
   const { currentUser } = useContext(UserContext);
-  console.log('currentUser:', currentUser)
   // initialize timer start value using useState
   const [userNum, setUserNum] = useState(currentUser && currentUser.default_timer || 600);
   // initialize a pause state value set to true
@@ -44,7 +50,6 @@ const resetTimer = () => {
   stopTimer();
   setIsTimerRunning(false);
   if (timerVal) {
-    //renders.current++;
     setTimerVal(userNum);
   }
 };
@@ -98,38 +103,26 @@ const startTimer = () => {
     if (!isTimeUp) {
       // if the timer is running
       if (isTimerRunning) {
-        return (
-          <div>
-
-            <p><i>breathe in...</i></p>
-            <h3>
-            {currentMantra[0] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe out...</i></p>
-            <h3>
-            {currentMantra[1] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe in...</i></p>
-            <h3>
-            {currentMantra[2] || currentMantra[0] || []}
-            </h3>
-            <br></br>
-            <br></br>
-            <p><i>breathe out...</i></p>
-            <h3>
-            {currentMantra[3] || currentMantra[1] || []}
-            </h3>
-          </div>
-        );
+          return !currentMantra.length ? 
+              (
+              <>
+              <p><i>breathe in...</i></p>
+              <br></br>
+              <p><i>breathe out...</i></p>
+              <br></br>
+              </>
+              ) : currentMantra.map((line, i) => {
+                  return (
+                  <div key={line + i}>
+                    <p><i>{i % 2 === 0 ? 'breathe in...' : 'breathe out...'}</i></p>
+                    <h3>{line}</h3>
+                    <br></br>
+                  </div>
+                  )}
+              )
       } else {
         return <h2>{secondsView === '00' ? `${minutes} minutes` : `${minutes} minutes ${secondsView} seconds`}</h2>;
-
       }
-
     } else {
       return <h2>Thank you.</h2>;
     }
@@ -137,7 +130,14 @@ const startTimer = () => {
   
   return (
     <>
-      <h1>Meditate</h1>
+    <Card>
+      <CardContent>
+      {/* <CardHeader> */}
+        <Button onClick={handleViewChange} size={'small'}>
+          Switch to Guided Meditation
+        </Button>
+        <h1>Meditation Timer</h1>
+      {/* </CardHeader> */}
       <br></br>
       <br></br>
       <RenderView />
@@ -154,13 +154,17 @@ const startTimer = () => {
         marks
         min={.1}
         max={30}
-      />
-      <section>
-        { pause ? <button onClick={startTimer}>Start</button> : <button onClick={stopTimer}>Pause</button>}
-        <button onClick={resetTimer}>Reset</button>
-      </section>
+        />
+      <CardActions>
+        <section>
+          { pause ? <Button onClick={startTimer}>Start</Button> : <Button onClick={stopTimer}>Pause</Button>}
+            <Button onClick={resetTimer}>Reset</Button>
+          </section>
+        </CardActions>
+        </CardContent>
+      </Card>
     </>
   );
 };
 
-export default Meditate;
+export default MeditateTimer;

@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   saveUser,
+  getUser,
   updateUser,
   saveRecipe,
   getRecipes,
@@ -13,6 +14,7 @@ const {
   deleteJournalEntry,
   deleteRecipe,
   updateMeditate,
+  updateWorkout,
 } = require("./user.controller");
 
 const userRouter = express.Router();
@@ -30,12 +32,18 @@ userRouter
   .put(editJournalEntry)
   .delete(deleteJournalEntry);
 
+
 userRouter
-  .route("/myrecipes/:id")
-  .get(getRecipes)
-  .post(saveRecipe)
-  .delete(deleteRecipe);
+.route("/myrecipes/:id")
+.get(getRecipes)
+.post(saveRecipe)
+.delete(deleteRecipe);
 
 userRouter.put("/meditate/:id", updateMeditate);
+
+userRouter
+.route('/exercise/:email')
+.put(updateWorkout)
+.get(getUser);
 
 module.exports = userRouter;

@@ -30,12 +30,16 @@ const saveUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  const { params: {email} } = req;
   try {
-    const user = await User.findById(id);
-    res.status(200).json(user);
+    const user = await User.findOne({email});
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
-    res.status(500).json(error);
+    res.sendStatus(500);
   }
 };
 
@@ -238,6 +242,20 @@ const updateMeditate = async (req, res) => {
   }
 };
 
+const updateWorkout = (req, res) => {
+  const {params: {email}, body: {user}} = req;
+ 
+    User.updateOne({email}, user, {upsert: true})
+    .then(({modifiedCount}) => {
+      if ({modifiedCount}) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch(() => res.sendStatus(500));
+};
+
 module.exports = {
   saveUser,
   getUser,
@@ -252,4 +270,5 @@ module.exports = {
   deleteJournalEntry,
   updateUser,
   updateMeditate,
+  updateWorkout,
 };

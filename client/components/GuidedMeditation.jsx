@@ -1,56 +1,118 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+// import GuidedVideoEntry from './GuidedVideoEntry.jsx';
+import CurrentGuidedVideo from './CurrentGuidedVideo.jsx';
 
-const GuidedMeditation = () => {
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+const GuidedMeditation = ({handleViewChange}) => {
   // create states
-  const [axiosObject, setAxiosObject] = ({});
+  const [videoIndexStart, setVideoIndexStart] = useState(0);
   const [videos, setVideos] = useState([]);
-  const [videoIds, setVideoIds] = useState([]);
-  const [videoContents, setVideoContents] = useState([]);
-  const [currentVideo, setCurrentVideo] = useState({});
-  const [nextPageToken, setNextPageToken] = useState('');
+  const [currentVideoList, setCurrentVideoList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // retrieve videos
-  setAxiosObject({
+  // setAxiosObject({
+  const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
-  });
-  const getVideos = () => {
-    setAxiosObject({
-
-    })
-    axios.get('https://www.googleapis.com/youtube/v3/search?', axiosObject)
-      .then((data) => {
-        // set the videos to the snippets returned
-        // map through the videos, returning the videoid
-        // join the videoId Array, separated by a comma
-      })
-      .then((map) => {
-        // return an axios get request to the youtubeLIST api for the content, with the videoIds separated by a comma
-  
-      })
-      .then((data) => {
-        // set a variable to mapping through the videos, 
-          // at each iteration use Array.find() on the data to find the matching object
-          // set the duration in the array equal to the data's duration
-          // return the element
-        // set video state with new array
-      })
-      .catch((err) => {
-        console.log('This is the err from setting the videos state:\n', err);
-      });
-  }
+  const notStateAxios = {
+    params: {
+      key: YOUTUBE_API_KEY,
+      q: 'guided+meditation',
+      part: 'snippet',
+      maxResults: '50',
+      videoEmbeddable: true,
+      type: 'video',
+    }
+  };
 
   useEffect(() => {
-
-    getVideos();
+    ( async () => {
+      try {
+        await getVideos();
+      } catch (err) {
+        console.error('Son, you got an error in your IIFE:\n', err);
+        setError(err)
+      }
+    })();
   }, []);
 
+  useEffect(() => {
+    setCurrentVideoList(videos.slice(videoIndexStart, videoIndexStart + 10));
+    setIsLoading(false);
+  }, [videos, videoIndexStart])
+  
 
-  return (
-    // map through videos array and render each one in a list entry
-    {videos.map(video => <h1>{video.title}</h1>)}
-  );
+  const getVideos = async () => {
+    try {
+      const { data: firstRequest } =  await axios.get('https://www.googleapis.com/youtube/v3/search?', notStateAxios)
+      const videoIds = firstRequest.items.map(video => video.id.videoId).join(',');
+      const videoIdRequestObject = {
+        params: {
+          key: YOUTUBE_API_KEY,
+          part: 'contentDetails',
+          id: videoIds,
+        }
+      }
+      const { data: secondRequest } = await axios.get(`https://www.googleapis.com/youtube/v3/videos`, videoIdRequestObject)
+      const completeVidInfo = firstRequest.items.map((video, i) => {
+        let unformattedTime = secondRequest.items[i].contentDetails.duration;
+        // video.duration = secondRequest.items[i].contentDetails.duration;
+        video.duration = unformattedTime.replace("PT","").replace("H",":").replace("M"," minutes ").replace("S"," seconds");
+        return video;
+      });
+      setVideos(completeVidInfo);
+      setCurrentVideoList(videos.slice(videoIndexStart, videoIndexStart + 10));
+      // setCurrentVideo(videos[0]);
+    } catch (err) {
+      console.error('The error from getVideos catch:\n', err);
+    }
+  }
 
+  const handleMoreMeditations = () => {
+    // const { current } = videoIndexStart;
+    videoIndexStart < 50 ? setVideoIndexStart(videoIndexStart + 10) : setVideoIndexStart(0);
+  }
+
+  return isLoading ? <h2>Enjoy this moment</h2> : (
+      <>
+      <Card>
+        <CardContent
+        sx={{
+          textAlign: "center"
+        }}
+        >
+        <Button onClick={handleViewChange} size={'small'}>
+          Switch to Meditation Timer
+        </Button>
+        <h1>Guided Meditation</h1>
+
+      <Carousel 
+        key={videoIndexStart}
+        showIndicators={false} 
+        showThumbs={false} 
+        useKeyboardArrows={true} 
+        showStatus={false}
+        width={'75%'}
+        >
+              {currentVideoList.map(video => <CurrentGuidedVideo video={video} key={video.id.videoId} />)}
+              
+            </Carousel>
+          <CardActions>
+            <Button onClick={handleMoreMeditations}>
+              Load More Meditations
+            </Button>
+          </CardActions>
+        </CardContent>
+      </Card>
+    </>
+    );
 };
 
 export default GuidedMeditation;
