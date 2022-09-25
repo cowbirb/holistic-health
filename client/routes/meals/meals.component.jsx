@@ -1,19 +1,18 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../context/user.context.jsx";
-import {TextField, Box, Button} from '@mui/material';
-import ProfileDetails from "../../components/Profile-details.jsx";
-import SavedRecipesList from "../../components/SavedRecipesList.jsx";
-import Search from "../../components/Search.jsx";
-
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../../context/user.context.jsx';
+import { TextField, Box, Button } from '@mui/material';
+import ProfileDetails from '../../components/Profile-details.jsx';
+import SavedRecipesList from '../../components/SavedRecipesList.jsx';
+import Search from '../../components/Search.jsx';
 
 const Meals = () => {
-  const {currentUser} = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState({user: {}});
+  const { currentUser } = useContext(UserContext);
+  const [userInfo, setUserInfo] = useState({ user: {} });
   const [isLoading, setLoading] = useState(true);
 
   if (isLoading) {
     if (currentUser) {
-        setUserInfo(currentUser);
+      setUserInfo(currentUser);
     }
     setLoading(false);
   }
@@ -21,38 +20,38 @@ const Meals = () => {
   return (
     <>
       <Box
-          sx={{
+        sx={{
           margin: 'auto',
           marginTop: '10px',
           textAlign: 'center',
-          border:'1px',
-          borderColor: 'grey'
+          border: '1px',
+          borderColor: 'grey',
         }}
-        >
+      >
         <ProfileDetails user={userInfo} />
-        </Box>
-        <Box
-          sx={{
+      </Box>
+      <Box
+        sx={{
           margin: 'auto',
           marginTop: '10px',
           textAlign: 'center',
-          border:'1px',
-          borderColor: 'grey'
+          border: '1px',
+          borderColor: 'grey',
         }}
-        >
-        <SavedRecipesList user={userInfo}/>
-        </Box>
-        <Box
-          sx={{
+      >
+        <SavedRecipesList user={userInfo} />
+      </Box>
+      <Box
+        sx={{
           margin: 'auto',
           marginTop: '10px',
           textAlign: 'center',
-          border:'1px',
-          borderColor: 'grey'
+          border: '1px',
+          borderColor: 'grey',
         }}
-        >
+      >
         <Search />
-        </Box>
+      </Box>
     </>
   );
 };
