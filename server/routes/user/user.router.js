@@ -9,6 +9,9 @@ const {
   saveEmotion,
   getEmotion,
   saveJournalEntry,
+  getJournalEntries,
+  editJournalEntry,
+  deleteJournalEntry,
   deleteRecipe,
   updateMeditate,
   updateWorkout,
@@ -22,7 +25,12 @@ userRouter.put("/:id", updateUser);
 
 userRouter.route("/:id/emotionOfTheDay").get(getEmotion).post(saveEmotion);
 
-userRouter.route("/:id/journal").post(saveJournalEntry);
+userRouter
+  .route("/:id/journal")
+  .get(getJournalEntries)
+  .post(saveJournalEntry)
+  .put(editJournalEntry)
+  .delete(deleteJournalEntry);
 
 
 userRouter
