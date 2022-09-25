@@ -29,7 +29,6 @@ const Meals = () => {
           borderColor: 'grey'
         }}
         >
-        <h1>Meals</h1>
         <ProfileDetails user={userInfo} />
         </Box>
         <Box

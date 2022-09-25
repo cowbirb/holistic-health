@@ -70,8 +70,7 @@ const JournalEntryCard = ({ journalEntry, journalDate }) => {
             console.log(error);
         }
     };
-    
-    // console.log(journalEditedEntry);
+
 
   return (
     <>

@@ -30,9 +30,11 @@ const saveUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { params: {email} } = req;
+  const {
+    params: { email },
+  } = req;
   try {
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if (user) {
       res.status(200).json(user);
     } else {
@@ -172,7 +174,10 @@ const getJournalEntries = async (req, res) => {
       date,
       entries,
     }));
-    res.status(200).json(journalEntries);
+    const sortedJournalEntries = journalEntries.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+    res.status(200).json(sortedJournalEntries);
   } catch (err) {
     console.log("could not get journal entries", err);
     res.sendStatus(500);
@@ -243,11 +248,14 @@ const updateMeditate = async (req, res) => {
 };
 
 const updateWorkout = (req, res) => {
-  const {params: {email}, body: {user}} = req;
- 
-    User.updateOne({email}, user, {upsert: true})
-    .then(({modifiedCount}) => {
-      if ({modifiedCount}) {
+  const {
+    params: { email },
+    body: { user },
+  } = req;
+
+  User.updateOne({ email }, user, { upsert: true })
+    .then(({ modifiedCount }) => {
+      if ({ modifiedCount }) {
         res.sendStatus(200);
       } else {
         res.sendStatus(404);
