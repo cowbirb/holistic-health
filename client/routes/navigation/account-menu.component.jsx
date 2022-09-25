@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
+import LoginIcon from '@mui/icons-material/Login';
 import Button from "@mui/material/Button";
 
 export default function AccountMenu() {
@@ -100,6 +101,7 @@ export default function AccountMenu() {
         </>
       ) : (
         <Button color="inherit" onClick={loginWithRedirect}>
+            <LoginIcon fontSize="small" />
           Login
         </Button>
       )}
