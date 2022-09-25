@@ -101,7 +101,7 @@ const GuidedMeditation = ({handleViewChange}) => {
         showThumbs={false} 
         useKeyboardArrows={true} 
         showStatus={false}
-        width={'75%'}
+        // width='75%'
         >
               {currentVideoList.map(video => <CurrentGuidedVideo video={video} key={video.id.videoId} />)}
               
