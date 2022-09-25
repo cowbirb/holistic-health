@@ -31,14 +31,22 @@ const MeditateTimer = ({handleViewChange}) => {
   //const [randomInput, setRandomInput] = useState('');
   const [timerVal, setTimerVal] = useState(userNum);
   // set a value for if the timer is running
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  // const [isTimerRunning, setIsTimerRunning] = useState(false);
   // set a value for the currentMantra
-  const [currentMantra, setCurrentMantra] = useState([])
-  // set a value for the expanded card
   const [expanded, setExpanded] = useState(false);
   // const renders = useRef(0);
   const timerId = useRef();
 
+  useEffect(() => {
+    if (currentUser) {
+      setUserNum(currentUser.default_timer);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    setTimerVal(userNum)
+  }, [userNum, currentUser]);
+  
   const mantras = [[['Breathing in, I calm my body'],['Breathing out, I smile'], ['Dwelling in the present moment'], ['I know this is a wonderful moment.']]
 , [['I'],['Am'],['Here'],['Now']], [['I have arrived'], ['I am home']], [['May you be free'], ['May you be at peace'], ['May you be healthy'], ['Thank you']]];
   
@@ -63,28 +71,27 @@ const handleSliderChange = (e) => {
 };
 
 const stopTimer = () => {
-  setPause(true);
-  setIsTimerRunning(false);
   clearInterval(timerId.current);
+  setPause(true);
+  // setIsTimerRunning(false);
   timerId.current = 0;
 };
 
 const resetTimer = () => {
   stopTimer();
-  setIsTimerRunning(false);
-  if (timerVal) {
-    setTimerVal(userNum);
-  }
+  // setIsTimerRunning(false);
+  setTimerVal(userNum);
+
 };
 
-const updateCurrentMantra = () => {
-  setCurrentMantra(mantras[Math.floor(Math.random() * mantras.length)]);
-}
+// const updateCurrentMantra = () => {
+//   setCurrentMantra(mantras[Math.floor(Math.random() * mantras.length)]);
+// }
 
 // function to start the timer
 const startTimer = () => {
   setPause(false);
-  setIsTimerRunning(true);
+  // setIsTimerRunning(true);
   // set the interval to one second
     timerId.current = setInterval(() => {
       // renders.current++;
@@ -98,24 +105,25 @@ const startTimer = () => {
           // change the value of timesUp
           updateMeditateProps(currentUser._id, userNum);
           setIsTimeUp(true);
-          // reset the timer
           resetTimer();
+          // reset the timer
           // play the chime
           const alert = new Audio(chime);
           alert.play();
-          updateCurrentMantra();
+          // updateCurrentMantra();
           // set a timout for 15 seconds until you switch the value of  timesup back
           setTimeout(() => {
             setIsTimeUp(false);
           }, 15000);
+          return userNum
         }
       });
     }, 1000);
   };
 
-  useEffect(() => {
-    updateCurrentMantra();
-  }, [])
+  // useEffect(() => {
+  //   updateCurrentMantra();
+  // }, [])
   
   const minutes = Math.floor(timerVal / 60);
   const seconds = timerVal % 60;
@@ -130,7 +138,10 @@ const startTimer = () => {
           </Typography>
         )
     } else {
-      return <h2>Thank you.</h2>;
+        return (
+      <Typography variant='h4' color='text.secondary'>
+        Thank you.
+      </Typography>)
     }
   };
   
