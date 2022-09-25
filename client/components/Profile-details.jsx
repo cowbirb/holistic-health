@@ -150,6 +150,7 @@ function ProfileDetails({ user }) {
         <Button
           text="Update"
           variant="outlined"
+          style={{paddingTop: '15px', paddingBottom: '15px'}} 
           onClick={handleUpdateOnClick}
         >
           Update
