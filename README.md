@@ -52,11 +52,21 @@ For Windows users: https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_Ge
 # Installation and Start-up
 ## Server/initial Setup
 1. Fork cowbirb/holistic-health repo
-2. Clone your forced repo to your local system
-3. Run npm install to install dependencies
+2. Clone your forked repo to your local system
+3. Run ```$ npm install``` in the terminal to install dependencies
 4. Create a .env file in your main directory.
-5. Compile your files to create bundle.
-6. Start the server
+    *  Add the following to your .env:
+        * the DB_Connect variable assigned to your database connection string including your credentials and database name.
+        * the RECIPES_API_KEY and API_ID, for the edamam recipe search api
+        * the REACT_APP_YOUTUBE_API_KEY, for the guided meditations
+        * Our application uses auth0, The last two variables in the .env example are for the domain key and client id which auth0 provides after you set up your application. Keep in mind when setting up auth0 that this is a single page react application. https://auth0.com/docs/quickstart/spa/react/interactive this link will help getting auth0 setup for this project.
+
+
+
+5. Run ```$ npm run build``` to compile the files
+6. Run ```$ npm start``` to start the server
+- for development purposes, you can use ```$ npm run dev```
+  in place of ```$ npm run build``` and ```$ npm run start```
 
 ## ADD TO YOUR .ENV
 1. the DB_Connect variable is assigned to your database connection string including your credentials and database name.
