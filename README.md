@@ -55,7 +55,7 @@ For Windows users: https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_Ge
 2. Clone your forked repo to your local system
 3. Run ```$ npm install``` in the terminal to install dependencies
 4. Create a .env file in your main directory.
-    *  Add the following to your .env:
+    *  Add the following to your .env (checkout example.env):
         * the DB_Connect variable assigned to your database connection string including your credentials and database name.
         * the RECIPES_API_KEY and API_ID, for the edamam recipe search api
         * the REACT_APP_YOUTUBE_API_KEY, for the guided meditations
